@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError(_("Enter an email address"))
 
-        # email = self.normalize_email(email)
+        email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
@@ -45,41 +45,43 @@ class User(AbstractUser):
     LEVEL_CHOICES = (
         ('JUPEB', 'JUPEB'),
         ('100', '100L'),
-        ('200', '200L')
-        ('300', '300L')
-        ('400', '400L')
+        ('200', '200L'),
+        ('300', '300L'),
+        ('400', '400L'),
         ('500', '500L')
         )
     DEPARTMENT_CHOICES = (
         ('mass_com', 'Mass Communication'),
         ('info_tech', 'Information Technology'),
-        ('interel', 'International Relations')
-        ('med_lab', 'Medical Laboratory Sciences')
-        ('accounting', 'Accounting')
-        ('pol_sci', 'Political Science')
-        ('nursing', 'Nursing Sciences')
-        ('bus_admin', 'Business Administration')
-        ('econs', 'Economics')
-        ('marketing', 'Marketing')
-        ('mico_bio', 'Micobiology')
-        ('bio_tech', 'BioTechnology')
+        ('interel', 'International Relations'),
+        ('med_lab', 'Medical Laboratory Sciences'),
+        ('accounting', 'Accounting'),
+        ('pol_sci', 'Political Science'),
+        ('nursing', 'Nursing Sciences'),
+        ('bus_admin', 'Business Administration'),
+        ('econs', 'Economics'),
+        ('marketing', 'Marketing'),
+        ('micro_bio', 'Micobiology'),
+        ('bio_tech', 'BioTechnology'),
         )
     username = None
-    email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
     full_name = models.CharField(max_length=50, blank=True, null=True)
+    matric_no = models.CharField(max_length=10, blank=True, null=True)
+    staff_id = models.CharField(max_length=10, blank=True, null=True)
+    user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
+    email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
+    phone_no = models.CharField(max_length=50, blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
     level = models.CharField(choices=LEVEL_CHOICES, max_length=50, blank=True, null=True)
     department = models.CharField(choices=DEPARTMENT_CHOICES, max_length=50, blank=True, null=True)
-    phone_no = models.CharField(max_length=50, blank=True, null=True)
-    user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
-    picture = models.ImageField(upload_to="user_pictures", blank=True, null=True)
+    picture = models.FileField(upload_to="user_pictures", blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.full_name} - {self.email}"
