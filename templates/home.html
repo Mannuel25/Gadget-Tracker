@@ -2,173 +2,44 @@
 {% load static %}
 
 {% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-</head>
-<main>
-    <section id="hero">
-        <div id="hero-txt">
-            <p class="hero-txt-small">Let's help you</p>
-            <p class="hero-txt-big">Discover your strength,<br>conquer your fears,<br>
-                & live your <span>best life</span></p>
-            <div id="hero-btn-container">
-                <a id="get-started" href="{% url 'signup' %}" class="hero-btn">Get Started</a>
-
-                <a id="log-in" href="{% url 'login' %}" class="hero-btn">Log in</a>
-            </div>
+<br>
+<section class="text-dark p-5 p-lg-0 pt-lg-5 text-sm-start">
+  <div class="container d-none d-sm-block">
+    <div class="d-sm-flex align-items-center justify-content-between">
+      <div>
+        <h1>lorem ipsum blaaa blaaa</h1>
+        <p class="lead my-4" style="font-size: 24px;">
+          uhmmmmmmmmmmmmmmmmm
+        </p><br>
+        <div style="text-align: left;">
+          <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button"
+            style="border-radius: 11px; background-color: rgb(76, 0, 255) !important; border-color: rgb(76, 0, 255);">Get
+            Started</a>
+            <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button"
+              style="border-radius: 11px; background-color: green !important; border-color:green;">Login</a>
         </div>
-    </section>
-    <section id="about">
-        <img src="{% static 'images\about-illustration.png' %}" alt="">
-            <section id="about-text">
-                <h2>About</h2>
-                <p>This is Trinity University online counselling system, where students can visit the webpage, read articles related to counselling, watch helpful videos, ask questions and chat with the Counsellor. <br> If they are not satisfied they can book an appointment with the Counsellor of the school who is a well trained professional counsellor and also the school Chaplain, here the students get to express themselves when they have a conversations with the counsellor. 
-                </p>
-            </section>
-    </section>
-    <section id="faqs">
-        <h2 class="seo-hidden">Frequently Asked Questions</h2>
-        <div id="faq-images">
-            <img class="img-headers" src="{% static 'images\faqs.png' %}" alt="frequently asked questions">
-            <img id="faq-img-2" src="{% static 'images\faq-illustration.png' %}" alt="">
-        </div>
-        <div id="faq-container">
-            <div class="mobile_faq_container">
-                <div class="accordion">
-                  <div class="accordion-item">
-                    <button id="accordion-button-1" aria-expanded="false">
-                      <span class="accordion-title">What is counseling?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        Counseling is a process that involves talking with a trained professional who can provide support, guidance, and feedback on personal and emotional issues.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-2" aria-expanded="false">
-                      <span class="accordion-title">What kinds of issues can counseling help with?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        Counseling can help with a wide range of issues, including anxiety, depression, relationship problems, grief and loss, addiction, self-esteem, and more.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-3" aria-expanded="false">
-                      <span class="accordion-title">How long does counseling last?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        The length of counseling varies depending on the individual's needs and goals. Some people may benefit from short-term counseling that lasts a few weeks or months, while others may require more long-term support.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-4" aria-expanded="false">
-                      <span class="accordion-title">What happens during a counseling session?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        During a counseling session, the therapist will listen to the individual's concerns, provide feedback and guidance, and help the person develop coping strategies and solutions to their problems.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-5" aria-expanded="false">
-                      <span class="accordion-title">Is counseling confidential?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        Yes, counseling is confidential, and the therapist will not share any information with others unless the individual gives permission or there is a safety concern.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-6" aria-expanded="false">
-                      <span class="accordion-title">How can I find a counselor?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        There are many ways to find a counselor, including through personal recommendations, online directories, or contacting a mental health clinic or professional organization.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-7" aria-expanded="false">
-                      <span class="accordion-title">How much does counseling cost?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        The cost of counseling varies depending on the provider, location, and type of counseling. Many therapists offer sliding-scale fees or accept insurance.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <button id="accordion-button-8" aria-expanded="false">
-                      <span class="accordion-title">What if I'm not comfortable with my counselor?</span>
-                      <span class="icon" aria-hidden="true"></span>
-                    </button>
-                    <div class="accordion-content">
-                      <p>
-                        It is important to feel comfortable and safe with your counselor. If you don't feel a connection, it is okay to try a different therapist who may be a better fit for your needs.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-            </div>
-
-            <div id="q-wrap-1" class="q-wraps">
-                <p class="faq-tiles">What is counseling?</p>
-                <p class="faq-tiles">What kinds of issues can counseling help with?</p>
-                <p class="faq-tiles">How long does counseling last?</p>
-                <p class="faq-tiles">What happens during a counseling session?</p>
-            </div>
-            <div id="q-wrap-2" class="q-wraps">
-                <p class="faq-tiles">Is counseling confidential?</p>
-                <p class="faq-tiles">How can I find a counselor?</p>
-                <p class="faq-tiles">How much does counseling cost?</p>
-                <p class="faq-tiles">What if I'm not comfortable with my counselor?</p>
-            </div>
-            <div id="q-ans" class="q-wraps">
-                <div id="faq-ans-tile">
-                Click a question to reveal the answer!
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="contact">
-        <img src="" alt="">
-        <h2>Contact</h2>
-        <div id="con-wrapper" style="text-align: center;">
-            <div>
-                <img src="{% static 'images\live.jpg' %}" alt=""> 
-                <p>Ali Prince Emmanuel<br><span style="font-weight: 600;">Princeemmanuelali@gmail.com</span></p>
-            </div>
-            <div>
-                <img src="{% static 'images\counsellor.jpg' %}" alt=""> 
-                <p>School Counsellor<br><span style="font-weight: 600;">Pastor Bisi Otitoola</span></p> 
-            </div>
-
-        </div>
-    </section>
-    <div id="footer">
-        <img src="{% static 'images\tucounsel-logo.png' %}" alt="">
-        <div>
-            <p id="school-name">Trinity University Yaba</p>
-            <p>Off Alara St, Near Queens College, Yaba, Lagos</p>
-        </div>
+      </div>
+      <img class="img-fluid w-50" src="{% static 'images/homepage_image.JPG' %}" alt="" />
     </div>
-</main>
-
-<script src="{% static 'js/home.js' %}"></script>
+  </div>
+  <div class="d-block d-sm-none align-items-center">
+    <div style="text-align: center;">
+      <h1>lorem ipsum blaaa blaaa</h1>
+      <p class="lead my-4" style="font-size: 24px;">
+        uhmmmmmmmmmmmmmmmmm
+      </p><br>
+    </div>
+    <div style="text-align: center;">
+      <img class="img-fluid h-20" src="{% static 'images/homepage_image.JPG' %}" />
+      <br><br>
+      <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button"
+        style="border-radius: 11px; background-color: rgb(76, 0, 255) !important; border-color: rgb(76, 0, 255);">Get
+        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button"
+          style="border-radius: 11px; background-color: green !important; border-color:green;">Login</a>
+        Started</a>
+    </div>
+  </div>
+  <br><br>
+</section>
 
 {% endblock content %}

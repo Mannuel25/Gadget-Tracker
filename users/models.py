@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
-
 class UserManager(BaseUserManager):
     """
     User model manager where email address is the unique identifier
@@ -36,7 +35,7 @@ class UserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         ('student', 'Student'),
         ('staff', 'Staff'),
@@ -66,11 +65,11 @@ class User(AbstractUser):
         )
     username = None
     full_name = models.CharField(max_length=50, blank=True, null=True)
-    matric_no = models.CharField(max_length=10, blank=True, null=True)
-    staff_id = models.CharField(max_length=10, blank=True, null=True)
-    user_type = models.CharField(choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
+    matric_no = models.CharField(_("Matric number"), unique=True, max_length=10, blank=True, null=True)
+    staff_id = models.CharField(max_length=10, unique=True, blank=True, null=True)
+    user_type = models.CharField(default='staff', choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
     email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
-    phone_no = models.CharField(max_length=50, blank=True, null=True)
+    phone_no = models.CharField(_("Phone number"), max_length=50, blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
     level = models.CharField(choices=LEVEL_CHOICES, max_length=50, blank=True, null=True)
     department = models.CharField(choices=DEPARTMENT_CHOICES, max_length=50, blank=True, null=True)
