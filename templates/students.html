@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    {% include 'nav.html' %}
+    <!-- {% include 'nav.html' %} -->
     <section class="home-section" style="background-color: white;" id="btn;">
         <!--Add the form back later for styling..the functionality works-->
         <!-- <form method="GET" id="searchbar">
@@ -25,13 +25,13 @@
         </form> -->
         <div style="margin-top: 50px;">
             {% for user in students %}
-            <a href="{% url 'edit_user' user.id %}" class="appts_link">
-                <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
-                    <p class="appt_time">
-                        {{user.full_name|title}} - {{user.matric_no }} - {{user.level }}
-                    </p>
-                </div>
-            </a>
+                <a href="{% url 'edit_user' user.id %}" class="appts_link">
+                    <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
+                        <p class="appt_time">
+                            {{user.full_name|title}} - {{user.matric_no }} - {{user.level }}
+                        </p>
+                    </div>
+                </a>
             {% endfor %}
         </div>
         </section>
