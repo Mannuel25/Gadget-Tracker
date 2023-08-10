@@ -16,7 +16,7 @@ urlpatterns = [
     path('gadgets/delete/<int:id>/', delete_gadget, name='delete_gadget'),
     path('logout/', logout_user, name='logout'),
 
-    path('products/', ProductList.as_view(), name='list_products'),
+    path('products/', all_users_gadgets, name='all_users_gadgets'),
     path('create/', UserGadgetsCreate.as_view(), name='create_product'),
     path('update/<int:pk>/', UserGadgetsUpdate.as_view(), name='update_product'),
     path('delete-variant/<int:pk>/', delete_variant, name='delete_variant'),

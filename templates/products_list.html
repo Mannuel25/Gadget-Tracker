@@ -9,8 +9,8 @@
         <a href="{% url 'create_product' %}">Add more products</a>
     </div>
     <ul>
-        {% for product in products %}
-        <li class="card-body">{{ product.model }} | <a href="{% url 'update_product' product.id %}">Edit</a>
+        {% for gadget in gadgets %}
+        <li class="card-body">{{ gadget.full_name }} | <a href="{% url 'update_product' gadget.id %}">Edit</a>
         </li>
         {% endfor %}
     </ul>

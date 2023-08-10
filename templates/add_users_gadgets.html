@@ -15,17 +15,17 @@
     {% with named_formsets.gadgets as formset %}
     {{ formset.management_form }}
     <script type="text/html" id="gadgets-template">  // id="inlineformsetname-template"
-                // id='inlineformsetname-__prefix__' 
-                <tr id="gadgets-__prefix__" class= hide_all>
-                    {% for fields in formset.empty_form.hidden_fields %}
-                        {{ fields }}
-                    {% endfor %}
-                
-                    {% for fields in formset.empty_form.visible_fields %}
-                        <td>{{fields}}</td>
-                    {% endfor %}
-                </tr>
-            </script>
+        // id='inlineformsetname-__prefix__' 
+        <tr id="gadgets-__prefix__" class= hide_all>
+            {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+            {% endfor %}
+        
+            {% for fields in formset.empty_form.visible_fields %}
+                <td>{{fields}}</td>
+            {% endfor %}
+        </tr>
+    </script>
     <div class="table-responsive card mt-4">
         <div class="card-header card-header-secondary">
             <h4 class="card-title">Add gadgets</h4>
@@ -39,15 +39,14 @@
                 <th>Delete?</th>
                 <th>Custom Delete btn</th>
             </thead>
-            <tbody id="item-gadgets"> <!-- id="item-inlineformsetname" -->
-                <!-- formset non forms errors -->
+            <tbody id="item-gadgets">
                 {% for error in formset.non_form_errors %}
                 <span style="color: red">{{ error }}</span>
                 {% endfor %}
                 {% for formss in formset %}
                 {{ formss.management_form }}
-                <tr id="gadgets-{{ forloop.counter0 }}" class=hide_all> <!-- id="inlineformsetname-counter" -->
-                    {{ formss.id }}
+                <tr id="gadgets-{{ forloop.counter0 }}" class=hide_all>
+                    <!-- {{ formss.id }}
                     {% for field in formss.visible_fields %}
                     <td>
                         {{field}}
@@ -55,7 +54,8 @@
                         <span style="color: red">{{ error }}</span>
                         {% endfor %}
                     </td>
-                    {% endfor %}
+                    {% endfor %} -->
+                    {{ formss }}
                     {% if formss.instance.pk %}
                     <td>
                         <button type="button" class="btn btn-danger" data-toggle="modal"

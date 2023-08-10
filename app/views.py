@@ -101,7 +101,6 @@ class UserAndGadgets():
             return self.render_to_response(self.get_context_data(form=form))
 
         self.object = form.save()
-        print(self.object)
 
         # for every formset, attempt to find a specific formset save function
         # otherwise, just save.
@@ -111,7 +110,7 @@ class UserAndGadgets():
                 formset_save_func(formset)
             else:
                 formset.save()
-        return redirect('list_products')
+        return redirect('all_users_gadgets')
 
     def formset_gadgets_valid(self, formset):
         """
@@ -170,7 +169,10 @@ def delete_variant(request, pk):
     return redirect('update_product', pk=variant.product.id)
 
 
-class ProductList(ListView):
-    model = Gadget
-    template_name = "products_list.html"
-    context_object_name = "products"
+def all_users_gadgets(request):
+    search_input = request.GET.get('search')
+    if search_input == None:
+        gadget = CustomUser.objects.all()
+    else:
+        gadget = CustomUser.objects.filter(full_name__icontains=search_input)
+    return render(request, 'products_list.html', {'gadgets' : gadget})

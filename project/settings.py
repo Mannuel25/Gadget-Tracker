@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'crispy_bootstrap4',
-    'users',
     'app',
 ]
 
@@ -86,7 +85,7 @@ DATABASES = {
 }
 
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'app.CustomUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
