@@ -6,7 +6,7 @@
     {% csrf_token %}
     <div class="card">
         <div class="card-header card-header-secondary">
-            <h4 class="card-title">Add Student</h4>
+            <h4 class="card-title">Student Infomation</h4>
         </div>
         <div class="form-group card-body">
             {{ form | crispy}}
@@ -28,7 +28,7 @@
     </script>
     <div class="table-responsive card mt-4">
         <div class="card-header card-header-secondary">
-            <h4 class="card-title">Add gadgets</h4>
+            <h4 class="card-title">Gadgets</h4>
         </div>
         <table class="table card-header">
             <thead class="text-secondary">
@@ -36,8 +36,7 @@
                 <th>Color <span style="color: red;" class="required">*</span></th>
                 <th>Device ID <span style="color: red;" class="required">*</span></th>
                 <th>Picture</th>
-                <th>Delete?</th>
-                <th>Custom Delete btn</th>
+                <th>Delete Item?</th>
             </thead>
             <tbody id="item-gadgets">
                 {% for error in formset.non_form_errors %}
@@ -46,7 +45,7 @@
                 {% for formss in formset %}
                 {{ formss.management_form }}
                 <tr id="gadgets-{{ forloop.counter0 }}" class=hide_all>
-                    <!-- {{ formss.id }}
+                    {{ formss.id }}
                     {% for field in formss.visible_fields %}
                     <td>
                         {{field}}
@@ -54,8 +53,7 @@
                         <span style="color: red">{{ error }}</span>
                         {% endfor %}
                     </td>
-                    {% endfor %} -->
-                    {{ formss }}
+                    {% endfor %}
                     {% if formss.instance.pk %}
                     <td>
                         <button type="button" class="btn btn-danger" data-toggle="modal"
