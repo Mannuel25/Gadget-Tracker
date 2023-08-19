@@ -4,9 +4,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <nav id="main-nav">
-    <div id="menu-button">
-        
-    </div>
+    <div id="logo">Gadget Guardian</div>
     <ul>
         <li><a class="" href="{% url 'all_students' %}">Students</a></li>
         <li><a class="" href="{% url 'all_staff' %}">Staff</a></li>
@@ -14,7 +12,6 @@
         <li><a class="" href="#">Missing Gadgets</a></li>
         <li><a class="" href="{% url 'logout' %}">Logout</a></li>
     </ul>
-    <a id="home-link" href="#"><img src="{% static 'images\tucounsel-logo.png' %}" alt=""></a>
 </nav>
 
 <script src="{% static 'js/script.js' %}"></script>

@@ -8,34 +8,64 @@ body {
     font-family: 'Jost', sans-serif;
 }
 
+#landing-nav{
+    display: flex;
+}
+
 li {
     list-style-type: none;
-}
-#main-nav a {
+    padding: 0;
+    margin: 0;
     width: 100%;
-    background: rgb(15, 15, 24);
-    color: white;
-
 }
-
-#main-nav > ul {
-    display: flex;
-    margin: 0 0 0 0;
-    font-size: 1.2em;
-    order: 1;
-    padding: 5px 20px;
-}
-
 #main-nav {
+    padding: 0 30px 0 0;
+    height: fit-content;
+    background: rgb(9, 9, 48);
     display: flex;
     position: fixed;
+    top: 0px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
     margin: 0;
     transition: 0.3s;
-    z-index: 998;
+    color: white;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.404);
 }
+#logo{
+    width: 250px;
+    font-size: 1.3em;
+    cursor: pointer;
+    clip-path: polygon( 0% 0%, 85% 0%, 100% 100%, 0% 100%);
+    background: rgb(29, 29, 63);
+    padding: 7px 0 9px 50px;
+}
+#main-nav a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid rgba(0, 0, 0, 0);
+    transition: 0.2s;
+    clip-path: polygon( 0% 0%, 85% 0%, 100% 100%, 15% 100%);
+}
+#main-nav a:hover{
+    background: rgb(29, 29, 63);
+    border-bottom: 2px solid lime;
+    text-decoration: none;
+}
+
+#main-nav > ul, #landing-nav ul {
+    display: flex;
+    height: fit-content;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 1.1em;
+    width: 80%;
+}
+
 
 @keyframes slide-left {
     0% {
