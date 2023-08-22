@@ -1,0 +1,17 @@
+{% extends "bases.html" %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header card-header-secondary">
+        <h4 class="card-title">Products</h4>
+        <a href="{% url 'create_user_gadget' %}">Add more products</a>
+    </div>
+    <ul>
+        {% for gadget in gadgets %}
+        <li class="card-body">{{ gadget.full_name }} | <a href="{% url 'update_product' gadget.id %}">Edit</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

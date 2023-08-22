@@ -153,22 +153,6 @@ class UserGadgetsUpdate(UserAndGadgets, UpdateView):
             'gadgets': GadgetFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='gadgets'),
         }
 
-def delete_variant(request, pk):
-    try:
-        variant = Variant.objects.get(id=pk)
-    except Variant.DoesNotExist:
-        messages.success(
-            request, 'Object Does not exit'
-            )
-        return redirect('update_product', pk=variant.product.id)
-
-    variant.delete()
-    messages.success(
-            request, 'Variant deleted successfully'
-            )
-    return redirect('update_product', pk=variant.product.id)
-
-
 def all_users_gadgets(request):
     search_input = request.GET.get('search')
     if search_input == None:
