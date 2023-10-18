@@ -11,21 +11,11 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('email', 'full_name')
         model = CustomUser
 
-class StaffVendorForm(forms.ModelForm):
-    class Meta:
-        fields = ['full_name', 'staff_id', 'email', 'phone_no', 'address', 'picture']
-        model = CustomUser
-
-class StudentForm(forms.ModelForm):
-    class Meta:
-        fields = ['full_name', 'matric_no', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
-        model = CustomUser
-
 class UserForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'matric_no', 'staff_id', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
+        fields = ['full_name', 'matric_no', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
         widgets = {
             'full_name': forms.TextInput(
                 attrs={
@@ -43,23 +33,5 @@ class GadgetForm(forms.ModelForm):
     class Meta:
         model = Gadget
         fields = ['model', 'color', 'device_id', 'picture']
-
-        # widgets = {
-        #     'model': forms.TextInput(
-        #         attrs={
-        #             'class': 'form-control'
-        #             }
-        #         ),
-        #     'color': forms.NumberInput(
-        #         attrs={
-        #             'class': 'form-control'
-        #             }
-        #         ),
-        #     'device_id': forms.NumberInput(
-        #         attrs={
-        #             'class': 'form-control'
-        #             }
-        #         ),
-        # }
 
 GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True)

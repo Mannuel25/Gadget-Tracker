@@ -7,8 +7,16 @@ from .decorators import for_admins
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import StudentForm, UserForm, CustomUserCreationForm, StaffVendorForm, GadgetFormSet
+from .forms import UserForm, CustomUserCreationForm, GadgetFormSet
 from .models import CustomUser, Gadget
+
+
+class HomePageView(TemplateView):
+    template_name = 'home.html'
+
+class DashboardView(TemplateView):
+    template_name = 'dashboard.html'
+
 
 def signup_user(request):
     if request.method == 'GET':
@@ -40,56 +48,6 @@ def logout_user(request):
     return redirect('home')
 
 
-@login_required(login_url='login')
-@for_admins
-def delete_user(request, id):
-    user = CustomUser.objects.get(id=id)
-    user.delete()
-    return redirect('dashboard')
-
-@login_required(login_url='login')
-def all_students(request):
-    search_input = request.GET.get('search')
-    if search_input == None:
-        students = CustomUser.objects.filter(user_type='student')
-    else:
-        students = CustomUser.objects.filter(full_name__icontains=search_input)
-    return render(request, 'students.html', {'students' : students})
-
-@login_required(login_url='login')
-def all_staff(request):
-    search_input = request.GET.get('search')
-    if search_input == None:
-        staff = CustomUser.objects.filter(user_type='staff')
-    else:
-        staff = CustomUser.objects.filter(full_name__icontains=search_input)
-    return render(request, 'staff.html', {'staff' : staff})
-
-@login_required(login_url='login')
-def all_vendors(request):
-    search_input = request.GET.get('search')
-    if search_input == None:
-        vendors = CustomUser.objects.filter(user_type='vendor')
-    else:
-        vendors = CustomUser.objects.filter(full_name__icontains=search_input)
-    return render(request, 'vendors.html', {'vendors' : vendors})
-
-
-class HomePageView(TemplateView):
-    template_name = 'home.html'
-
-class DashboardView(TemplateView):
-    template_name = 'dashboard.html'
-
-@login_required(login_url='login')
-@for_admins
-def delete_gadget(request, id):
-    gadget = get_object_or_404(Gadget, id=id)
-    gadget.delete()
-    return redirect('app:update_users', id=gadget.owner
-    .id)
-
-
 class UserAndGadgets():
     form_class = UserForm
     model = CustomUser
@@ -110,7 +68,7 @@ class UserAndGadgets():
                 formset_save_func(formset)
             else:
                 formset.save()
-        return redirect('all_users_gadgets')
+        return redirect('dashboard')
 
     def formset_gadgets_valid(self, formset):
         """
@@ -153,10 +111,48 @@ class UserGadgetsUpdate(UserAndGadgets, UpdateView):
             'gadgets': GadgetFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='gadgets'),
         }
 
-def all_users_gadgets(request):
+
+@login_required(login_url='login')
+def all_students(request):
     search_input = request.GET.get('search')
     if search_input == None:
-        gadget = CustomUser.objects.all()
+        students = CustomUser.objects.filter(user_type='student')
     else:
-        gadget = CustomUser.objects.filter(full_name__icontains=search_input)
-    return render(request, 'products_list.html', {'gadgets' : gadget})
+        students = CustomUser.objects.filter(full_name__icontains=search_input)
+    return render(request, 'students.html', {'students' : students})
+
+@login_required(login_url='login')
+def all_staff(request):
+    search_input = request.GET.get('search')
+    if search_input == None:
+        staff = CustomUser.objects.filter(user_type='staff')
+    else:
+        staff = CustomUser.objects.filter(full_name__icontains=search_input)
+    return render(request, 'staff.html', {'staff' : staff})
+
+@login_required(login_url='login')
+def all_vendors(request):
+    search_input = request.GET.get('search')
+    if search_input == None:
+        vendors = CustomUser.objects.filter(user_type='vendor')
+    else:
+        vendors = CustomUser.objects.filter(full_name__icontains=search_input)
+    return render(request, 'vendors.html', {'vendors' : vendors})
+
+
+@login_required(login_url='login')
+@for_admins
+def delete_user(request, id):
+    user = CustomUser.objects.get(id=id)
+    user.delete()
+    return redirect('dashboard')
+
+
+@login_required(login_url='login')
+@for_admins
+def delete_gadget(request, id):
+    gadget = get_object_or_404(Gadget, id=id)
+    gadget.delete()
+    return redirect('update_user', id=gadget.owner
+    .id)
+

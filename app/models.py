@@ -62,11 +62,11 @@ class CustomUser(AbstractUser):
         ('marketing', 'Marketing'),
         ('micro_bio', 'Micobiology'),
         ('bio_tech', 'BioTechnology'),
+        ('comp_sci', 'Computer Science'),
         )
     username = None
     full_name = models.CharField(max_length=50, blank=True, null=True)
     matric_no = models.CharField(_("Matric number"), unique=True, max_length=10, blank=True, null=True)
-    staff_id = models.CharField(max_length=10, unique=True, blank=True, null=True)
     user_type = models.CharField(default='staff', choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
     email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
     phone_no = models.CharField(_("Phone number"), max_length=50, blank=True, null=True)
