@@ -11,7 +11,8 @@ from .forms import UserForm, CustomUserCreationForm, GadgetFormSet
 from .models import CustomUser, Gadget
 import requests, os
 from django.http import FileResponse, HttpResponse
-
+from wsgiref.util import FileWrapper
+import requests
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
@@ -159,13 +160,7 @@ def delete_gadget(request, id):
     .id)
 
 
-from django.http import FileResponse
-from wsgiref.util import FileWrapper
-import requests
-import os
-
 def download_template(request):
-    # The link should be of the file directly
     url = 'https://github.com/Mannuel25/Gadget-Guardian/blob/main/User_Gadgets_Template.xlsx'
     file_extension = '.xlsx'
     r = requests.get(url)
