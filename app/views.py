@@ -9,7 +9,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserForm, CustomUserCreationForm, GadgetFormSet
 from .models import CustomUser, Gadget
-
+import requests, os
+from django.http import FileResponse, HttpResponse
+from wsgiref.util import FileWrapper
+import requests
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
@@ -155,4 +158,17 @@ def delete_gadget(request, id):
     gadget.delete()
     return redirect('update_user', id=gadget.owner
     .id)
+
+
+def download_template(request):
+    url = 'https://github.com/Mannuel25/Gadget-Guardian/blob/main/User_Gadgets_Template.xlsx'
+    file_extension = '.xlsx'
+    r = requests.get(url)
+    filename = url.split("/")[-1]
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+    file_wrapper = FileWrapper(open(filename, 'rb'))
+    response = FileResponse(file_wrapper, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
 

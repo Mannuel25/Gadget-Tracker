@@ -32,6 +32,6 @@ class UserForm(forms.ModelForm):
 class GadgetForm(forms.ModelForm):
     class Meta:
         model = Gadget
-        fields = ['model', 'color', 'device_id', 'picture']
+        fields = ['model', 'color', 'device_id']
 
 GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True)
