@@ -12,7 +12,6 @@ from .models import CustomUser, Gadget
 import requests, os
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
-import requests
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
