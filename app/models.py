@@ -95,7 +95,6 @@ class Gadget(models.Model):
     color = models.CharField(max_length=150, blank=True, null=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=50, blank=True, null=True)
     device_id = models.CharField(max_length=500, blank=True, null=True)
-    picture = models.FileField(upload_to="gadgets_pictures", blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
