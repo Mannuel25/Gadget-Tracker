@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap');
-
+:root{
+    --primary-color: rgb(9, 9, 48);
+}
 body {
     margin: 0;
     height: 100%;
     width: 100%;
     background: rgb(245, 255, 255);
-    font-family: 'Jost', sans-serif;
+    font-family: 'Jost', sans-serif !important;
 }
 
 li {
@@ -14,13 +15,14 @@ li {
     margin: 0;
     width: 100%;
 }
+a{
+    text-decoration: none;
+}
 #main-nav {
     padding: 0 30px 0 0;
     height: fit-content;
     background: rgb(9, 9, 48);
     display: flex;
-    position: fixed;
-    top: 0px;
     width: 100%;
     justify-content: space-between;
     align-items: center;
@@ -65,22 +67,15 @@ li {
 #landing-nav{
     display: flex;
     background: #fff;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.281);
-    height: fit-content;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-}
-
-#landing-nav ul {
-    display: flex;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.538);
     height: fit-content;
     justify-content: space-between;
-    margin: 0;
-    font-size: 1.1em;
-    width: 50%;
+    align-items: center;
+    font-weight: 700;
+    padding: 0 40px;
+    z-index: 80;
 }
+
 
 #logo-landing{
     padding:10px 0;
@@ -90,23 +85,144 @@ li {
 
 #landing-nav a{
     display: block;
-    width: 100px;
-    padding:12px 0;
+    padding:12px 8px;
     text-decoration: none;
     color: rgb(9, 9, 48);
 }
+#home_hero{
+    background: var(--primary-color);
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    overflow: hidden;
+}
+#home_hero > div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    animation: slideup ;
+}
+#home_hero h2{
+    line-height: 1.4em;
+    font-size: 2.7em;
+}
+#home_hero h2 > span{
+   font-weight: 700;
+   color: rgb(10, 232, 10);
 
-
-
-@keyframes slide-left {
+}
+#home_hero2{
+    margin: -80px auto 50px auto;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.538);
+    width: 40%;
+    font-weight: 600;
+    background-color: #fff;
+    z-index: 79;
+    position: relative;
+}
+#home_hero2 p{
+    margin: 0;
+    text-align: center;
+}
+#hero_btns{
+    display: flex;
+    width: 60%;
+    gap: 20px
+}
+#hero_btns a{
+    padding: 8px 20px;
+    box-shadow: 0 7px 10px rgba(0, 0, 0, 0.585);
+    font-size: 1.5em;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    border: 2px solid white;
+    transition: 0.25s;
+}
+#hero_btns a:hover{
+    box-shadow: 0 9px 12px rgba(0, 0, 0, 0.548);
+    transform: translateY(-5px) scale(1.04);
+}
+#home_signup{
+    background: #fff;
+    color: var(--primary-color) !important;
+    border: none;
+}
+.authbg{
+    background-color: #f9f9ff;
+    background: radial-gradient(circle, transparent 20%, #f9f9ff 20%, #f9f9ff 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #f9f9ff 20%, #f9f9ff 80%, transparent 80%, transparent) 30px 30px, linear-gradient(#c5c8ff 2.4000000000000004px, transparent 2.4000000000000004px) 0 -1.2000000000000002px, linear-gradient(90deg, #c5c8ff 2.4000000000000004px, #f9f9ff 2.4000000000000004px) -1.2000000000000002px 0;
+    background-size: 60px 60px, 60px 60px, 30px 30px, 30px 30px;
+    margin-top: 8%;
+    font-family: 'Jost', sans-serif;
+}
+.authbg form button{
+    background: rgb(4, 53, 121) !important;
+    transition: 0.25s;
+    font-weight: 700;
+}
+.authbg form button:hover{
+    background: rgb(3, 39, 89) !important;
+    scale: 1.03;
+}
+.dashboard_dropdown{
+    position: absolute !important;
+    top: 55px;
+    left: 50px;
+    background: var(--primary-color);
+    margin: 0;
+    padding: 0 !important;
+    display: none;
+    width: fit-content;
+}
+.dashboard_dropdown a{
+    clip-path: none !important;
+    padding: 5px 10px !important;
+    width: auto !important;
+}
+.dashboard_dropdown a:hover{
+    background: rgba(29, 29, 63, 0.638);
+}
+#dropdown{
+    position: relative;
+}
+@keyframes slideup {
     0% {
-        transform: translateX(42vw);
+        transform: translateY(42vw);
         opacity: 0;
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@keyframes fadeup {
+    0% {
+        transform: translateY(25px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes fadedown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    100% {
+        transform: translateY(25px);
+        opacity: 0;
     }
 }
 
