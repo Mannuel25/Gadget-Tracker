@@ -35,8 +35,8 @@
                 <th>Model <span style="color: red;" class="required">*</span></th>
                 <th>Color <span style="color: red;" class="required">*</span></th>
                 <th>Device ID <span style="color: red;" class="required">*</span></th>
-                <th>Picture</th>
-                <th>Delete Item?</th>
+                <!-- <th>Delete Item?</th> -->
+                <th>Missing?</th>
             </thead>
             <tbody id="item-gadgets">
                 {% for error in formset.non_form_errors %}
@@ -66,8 +66,8 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure
-                                            You Want To Delete this gadget?</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are you sure
+                                            you want to delete this gadget?</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>

@@ -16,4 +16,5 @@ urlpatterns = [
     path('create_user/', UserGadgetsCreate.as_view(), name='create_user'),
     path('update/<int:pk>/', UserGadgetsUpdate.as_view(), name='update_user'),
     path('gadgets/delete/<int:id>/', delete_gadget, name='delete_gadget'),
+    path('download_template/', download_template, name='download_template'),
 ]

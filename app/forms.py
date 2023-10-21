@@ -2,6 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from .models import Gadget, CustomUser
+from django.forms import BaseInlineFormSet, HiddenInput
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(label=("Enter a password"), strip=False, widget=forms.PasswordInput)
@@ -32,6 +33,14 @@ class UserForm(forms.ModelForm):
 class GadgetForm(forms.ModelForm):
     class Meta:
         model = Gadget
-        fields = ['model', 'color', 'device_id', 'picture']
+        fields = ['model', 'color', 'device_id', 'missing']
 
-GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True)
+
+class CustomGadgetFormSet(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super(CustomGadgetFormSet, self).__init__(*args, **kwargs)
+        for form in self.forms:
+            form.fields['DELETE'].widget = HiddenInput()
+
+GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True, formset=CustomGadgetFormSet)
+
