@@ -18,14 +18,26 @@
 
   <body>
     {% include 'nav.html' %}
-    <a href="{% url 'edit'}"></a>
-    <h2 style="color:black;">Nothing to see here yet!</h2>
-    <!-- <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script> -->
+    <section class="main_section" id="btn;" onclick="removeDropDown()">
+      <h2 style="color:black;">Nothing to see here yet!</h2>
+      <!-- <a href="{% url 'edit'}"></a> -->
+      <!-- <script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+        ></script> -->
+      </section>
   </body>
+  <script>
+    const removeDropDown = () =>{
+     let dropdown = document.querySelector(".dashboard_dropdown");
+     if (!dropdown){return}
+     dropdown.style.animation = "fadedown 0.3s"
+     setTimeout(()=>{
+         dropdown.style.display = "none"
+     }, 250)
+ }
+</script>
   <style>
     body{
       background-color: #ffffff;
