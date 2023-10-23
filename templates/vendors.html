@@ -19,13 +19,13 @@
     {% include 'nav.html' %}
     <section class="main_section" id="btn;" onclick="removeDropDown()">
         <form method="GET" id="searchbar">
-            <input name="search" type="search" placeholder="Search for a student..." id="search_input" />
+            <input name="search" type="search" placeholder="Search for a vendor..." id="search_input" />
             <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
         </form>
         <div class="table_container">
             <div class="user_card" style="margin-bottom: 25px;">
                 <p class="user_column">Student</p>
-                <p class="matric_header">Matric Number</p>
+                <p class="matric_header">Vendor ID</p>
                 <p class="update_header">Last updated</p>
                 <p class="gadget_header">Gadgets</p>
             </div>
@@ -50,13 +50,19 @@
                 <p class="mat_no">{{user.matric_no }}</p>
                 <p class="last_update">{{ user.date_updated }}</p>
                 <div class="gadget_column">
-                    <p>Samsung A03 Core</p>
-                    <p>+4</p>
-                    {% if user.matric_no == "123321" %}
-                     <!-- change this if statement to check if gadget is missing -->
-                        <div class="missing_badge bx bxs-error-circle"></div>
+                    {% if user.gadget_set.all %}
+                    <p>{{ user.gadget_set.first.model }}</p>
                     {% endif %}
-                    </div>
+                    <p>{{ user.gadget_count }}</p>
+                    <p>{{gadget}}</p>
+                    {% for gadget in gadgets %}
+                    {% if gadget.owner == user %}
+                    {% if gadget.missing %}
+                    <div class="missing_badge bx bxs-error-circle"></div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
                 </div>
                 </a>
                

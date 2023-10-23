@@ -19,7 +19,7 @@
     {% include 'nav.html' %}
     <section class="main_section" id="btn;" onclick="removeDropDown()">
         <form method="GET" id="searchbar">
-            <input name="search" type="search" placeholder="Search for a student..." id="search_input" />
+            <input name="search" type="search" placeholder="Search for a staff..." id="search_input" />
             <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
         </form>
         <div class="table_container">
@@ -51,12 +51,19 @@
                 <p class="mat_no">{{user.matric_no }}</p>
                 <p class="last_update">{{ user.date_updated }}</p>
                 <div class="gadget_column">
-                    <p>Samsung A03 Core</p>
-                    <p>+4</p>
-                    {% if user.matric_no == "123321" %}
-                        <div class="missing_badge bx bxs-error-circle"></div>
+                    {% if user.gadget_set.all %}
+                    <p>{{ user.gadget_set.first.model }}</p>
                     {% endif %}
-                    </div>
+                    <p>{{ user.gadget_count }}</p>
+                    {% for gadget in gadgets %}
+                    {% if gadget.owner == user %}
+                    {% if gadget.missing %}
+                    <div class="missing_badge bx bxs-error-circle"></div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                </div>
                 </div>
                 </a>
                

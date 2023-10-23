@@ -100,5 +100,5 @@ class Gadget(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.owner.full_name} - {self.model}"
+        return f"{self.model}"
 

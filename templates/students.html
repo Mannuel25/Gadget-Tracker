@@ -50,16 +50,20 @@
                 <p class="mat_no">{{user.matric_no }}</p>
                 <p class="last_update">{{ user.date_updated }}</p>
                 <div class="gadget_column">
-                    <p>Samsung A03 Core</p>
-                    <p>+4</p>
-                    {% if user.matric_no == "123321" %}
-                     <!-- change this if statement to check if gadget is missing -->
+                    {% if user.gadget_set.all %}
+                    <p>{{ user.gadget_set.first.model }}</p>
+                    {% endif %}
+                    <p>{{ user.adjusted_gadget_count }}</p>
+                    {% for gadget in gadgets %}
+                    {% if gadget.owner == user %}
+                    {% if gadget.missing %}
                         <div class="missing_badge bx bxs-error-circle"></div>
                     {% endif %}
+                    {% endif %}
+                    {% endfor %}
                     </div>
                 </div>
                 </a>
-               
             {% endfor %}
         </div>
         </section>
