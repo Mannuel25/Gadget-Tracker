@@ -2,29 +2,44 @@
 
 <head>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <nav id="main-nav">
-    <div id="logo">Gadget Guardian</div>
+    <a id="logo" href="{% url 'dashboard' %}">Gadget Guardian</a>
     <ul>
         <li><a class="" href="{% url 'all_students' %}">Students</a></li>
         <li><a class="" href="{% url 'all_staff' %}">Staff</a></li>
         <li><a class="" href="{% url 'all_vendors' %}">Vendors</a></li>
-        <li><a class="" href="#">Missing Gadgets</a></li>
+        <li><div class="" href="#" id="dropdown" onclick="showDropDown()">
+            <a>More Actions <i class='bx bx-caret-down'></i></a>
+            <ul class="dashboard_dropdown">
+                <li><a href="{% url 'create_user' %}">Add User</a></li>
+                <li><a href="">Missing Gadgets</a></li>
+                <li><a href="">Upload Users</a></li>
+                <li><a href="{% url 'download_template' %}">Download Template</a></li>
+            </ul>
+        </div></li>
         <li><a class="" href="{% url 'logout' %}">Logout</a></li>
     </ul>
 </nav>
-<nav id="mobile-nav">
-    <ul>
-        <li><a class="mobile-nav-links" href="#">About</a></li>
-        <hr>
-        <li><a class="mobile-nav-links" href="#">FAQs</a></li>
-        <hr>
-        <li><a class="mobile-nav-links" href="#">Contact</a></li>
-    </ul>
-    <hr>
-    <a href="https://github.com/Mannuel25/Gadget-Guardian/"><img style="height: 30px;"
-            src="{% static 'images\github.png' %}" alt=""></a>
-    </div>
-</nav>
 
 <script src="{% static 'js/script.js' %}"></script>
+<script>
+    const dropdown = document.querySelector(".dashboard_dropdown");
+
+    const showDropDown = () =>{
+       dropdown.style.display = "block"
+       dropdown.style.animation = "fadeup 0.3s"
+    }
+    
+    const removeDropDown = () =>{
+        let dropdown = document.querySelector(".dashboard_dropdown");
+        if (!dropdown){return}
+        dropdown.style.animation = "fadedown 0.3s"
+        setTimeout(()=>{
+            dropdown.style.display = "none"
+        }, 250)
+    }
+</script>

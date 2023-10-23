@@ -2,44 +2,27 @@
 {% load static %}
 
 {% block content %}
-<br>
-<section class="text-dark p-5 p-lg-0 pt-lg-5 text-sm-start">
-  <div class="container d-none d-sm-block">
-    <div class="d-sm-flex align-items-center justify-content-between">
-      <div>
-        <h1>lorem ipsum blaaa blaaa</h1>
-        <p class="lead my-4" style="font-size: 24px;">
-          uhmmmmmmmmmmmmmmmmm
-        </p><br>
-        <div style="text-align: left;">
-          <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button"
-            style="border-radius: 11px; background-color: rgb(76, 0, 255) !important; border-color: rgb(76, 0, 255);">Get
-            Started</a>
-            <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button"
-              style="border-radius: 11px; background-color: green !important; border-color:green;">Login</a>
-        </div>
+
+<section id="home_main">
+  <div id="home_hero">
+    <div>
+      <h2>Safeguarding your Campus, <br>
+         your Gadgets and your <br>
+         <span>Peace of Mind</span></h2>
+      <div id="hero_btns">
+        <a href="{% url 'login' %}" role="button" >Login</a>
+        <a href="{% url 'signup' %}" role="button" id="home_signup">Get Started</a>
       </div>
-      <img class="img-fluid w-50" src="{% static 'images/homepage_image.JPG' %}" alt="" />
     </div>
+    <img src="{% static 'images/bg.png' %}" alt="">
   </div>
-  <div class="d-block d-sm-none align-items-center">
-    <div style="text-align: center;">
-      <h1>lorem ipsum blaaa blaaa</h1>
-      <p class="lead my-4" style="font-size: 24px;">
-        uhmmmmmmmmmmmmmmmmm
-      </p><br>
-    </div>
-    <div style="text-align: center;">
-      <img class="img-fluid h-20" src="{% static 'images/homepage_image.JPG' %}" />
-      <br><br>
-      <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button"
-        style="border-radius: 11px; background-color: rgb(76, 0, 255) !important; border-color: rgb(76, 0, 255);">Get
-        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button"
-          style="border-radius: 11px; background-color: green !important; border-color:green;">Login</a>
-        Started</a>
-    </div>
+  <div id="home_hero2">
+    <p>"Gadget Guardian is a cutting-edge e-facility designed to enhance campus security. It allows perssonel to efficiently register and monitor student devices, thereby improving response times and providing a robust defense against theft."</p>
   </div>
-  <br><br>
+  <!-- <div id="faqs">
+    <h2>Frequently Asked Questions</h2>
+  </div> -->
+
 </section>
 
 {% endblock content %}
