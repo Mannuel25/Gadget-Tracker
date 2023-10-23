@@ -23,12 +23,12 @@ a{
     height: fit-content;
     background: rgb(9, 9, 48);
     display: flex;
-    width: 100%;
     justify-content: space-between;
     align-items: center;
     margin: 0;
     transition: 0.3s;
     color: white;
+    z-index: 999;
     box-shadow: 0 0 18px rgba(0, 0, 0, 0.404);
 }
 #logo{
@@ -38,15 +38,21 @@ a{
     clip-path: polygon( 0% 0%, 85% 0%, 100% 100%, 0% 100%);
     background: rgb(29, 29, 63);
     padding: 7px 0 9px 50px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0);
+    color: white;
+    transition: 0.4s;
 }
-#main-nav a {
+#logo:hover{
+    background: rgb(29, 29, 63) !important;
+}
+#main-nav ul a {
     display: block;
     width: 100%;
     text-align: center;
     padding: 10px;
     color: white;
     border-bottom: 2px solid rgba(0, 0, 0, 0);
-    transition: 0.2s;
+    transition: 0.4s;
     clip-path: polygon( 0% 0%, 85% 0%, 100% 100%, 15% 100%);
 }
 #main-nav a:hover{
@@ -173,12 +179,13 @@ a{
 .dashboard_dropdown{
     position: absolute !important;
     top: 55px;
-    left: 50px;
+    left: 25px;
     background: var(--primary-color);
     margin: 0;
     padding: 0 !important;
     display: none;
     width: fit-content;
+    border: 1px solid rgb(99, 99, 99);
 }
 .dashboard_dropdown a{
     clip-path: none !important;
@@ -190,6 +197,130 @@ a{
 }
 #dropdown{
     position: relative;
+    cursor: pointer;
+}
+.main_section{
+    height: 91vh;
+    padding: 20px;
+}
+#searchbar{
+    background: rgb(29, 29, 63) !important;
+    padding: 8px 16px;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#search_input{
+    color: #fff;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    border: none;
+}
+#search_input:focus{
+    outline: none;
+}
+#search_btn{
+    color: #fff;
+    cursor: pointer;
+}
+.table_container{
+    margin-top: 50px;
+}
+.user_card{
+    color: white;
+    background: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 11px rgba(0, 0, 0, 0.558);
+    padding: 5px 15px 5px 15px;
+    gap: 40px;
+    align-items: center;
+    animation: fadeup 0.4s;
+}
+.user_card div>img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid rgb(141, 141, 141);
+    display: inline;
+}
+.user_column{
+    display: flex;
+    gap: 8px;
+    width: 300px;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+.user_name{
+    width: 200px;
+}
+.user_card p{
+    margin: 0px;
+}
+.user_level{
+    font-size: 0.8em;
+    margin-top: 4px;
+    font-weight: 600;
+}
+.user_link:hover{
+    text-decoration: none;
+}
+.matric_header{
+    width: 150px;
+    padding-left: 10px;
+}
+.update_header{
+    width: 230px;
+    padding-left: 25px;
+}
+.gadget_header{
+    width: 350px;
+    padding-left: 25px;
+    text-align: center;
+}
+.hover_card{
+    transition: 0.2s;
+}
+.hover_card:hover{
+    background: rgb(20, 20, 58);
+    transform: translateY(-2px);
+}
+.gadget_column{
+    display: flex;
+    gap: 12px;
+    width: 350px;
+    justify-content: flex-end;
+    align-items: center;
+}
+.gadget_column > p, .view_btn, .mat_no, .last_update{
+    background:  rgb(2, 2, 26);;
+    padding: 5px 10px;
+    height: fit-content;
+}
+.mat_no{
+    width: 150px;
+}
+.last_update{
+    width: 230px;
+}
+.view_btn{
+    background:  rgb(55, 177, 2);;
+    padding: 5px 10px;
+}
+.user_card a{
+    color: white;
+}
+.user_card a:hover{
+    text-decoration: none;
+}
+.missing_badge{
+    color: rgb(215, 45, 45) !important;
+    font-size: 1.4em;
+    padding: 4px 4px -34px 4px;
+    /* margin-bottom: 25px;} */
 }
 @keyframes slideup {
     0% {
@@ -247,5 +378,3 @@ a{
         order: 1;
     }
 }
-
-@media (max-width: 420px) {}

@@ -6,19 +6,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&display=swap" rel="stylesheet">
 </head>
-<nav id="main-nav"">
-    <div id="logo">Gadget Guardian</div>
+<nav id="main-nav">
+    <a id="logo" href="{% url 'dashboard' %}">Gadget Guardian</a>
     <ul>
         <li><a class="" href="{% url 'all_students' %}">Students</a></li>
         <li><a class="" href="{% url 'all_staff' %}">Staff</a></li>
         <li><a class="" href="{% url 'all_vendors' %}">Vendors</a></li>
         <li><div class="" href="#" id="dropdown" onclick="showDropDown()">
-            <a>More Actions</a>
+            <a>More Actions <i class='bx bx-caret-down'></i></a>
             <ul class="dashboard_dropdown">
-                <li><a href="">Add User</a></li>
+                <li><a href="{% url 'create_user' %}">Add User</a></li>
                 <li><a href="">Missing Gadgets</a></li>
                 <li><a href="">Upload Users</a></li>
-                <li><a href="">Get Template</a></li>
+                <li><a href="{% url 'download_template' %}">Download Template</a></li>
             </ul>
         </div></li>
         <li><a class="" href="{% url 'logout' %}">Logout</a></li>
@@ -35,6 +35,8 @@
     }
     
     const removeDropDown = () =>{
+        let dropdown = document.querySelector(".dashboard_dropdown");
+        if (!dropdown){return}
         dropdown.style.animation = "fadedown 0.3s"
         setTimeout(()=>{
             dropdown.style.display = "none"
