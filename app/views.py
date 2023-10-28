@@ -212,10 +212,9 @@ def delete_gadget(request, id):
 
 
 def download_template(request):
-    url = 'https://github.com/Mannuel25/Gadget-Tracker/blob/main/User_Gadgets_Template.xlsx'
-    file_extension = '.xlsx'
+    url = 'https://res.cloudinary.com/dq5fvxkeo/raw/upload/v1698499311/User_Gadgets_Template_zkqpch.xlsx'
     r = requests.get(url)
-    filename = url.split("/")[-1]
+    filename = 'User_Gadgets_Template.xlsx'
     with open(filename, 'wb') as f:
         f.write(r.content)
     file_wrapper = FileWrapper(open(filename, 'rb'))
