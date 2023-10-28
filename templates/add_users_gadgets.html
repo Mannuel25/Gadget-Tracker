@@ -53,10 +53,40 @@
 <form enctype="multipart/form-data" class="container" method="post" id="product_form">
     {% csrf_token %}
     <div class="card">
-        <h2 class="card_title">Add User</h2>
+        {% if is_edit %}
+        <h2 class="card_title">Edit User Details</h2>
+        {% else %}
+        <h2 class="card_title">Add User Details</h2>
+        {% endif %}
         <div class="form-group card-body form_container">
             {{ form | crispy}}
         </div>
+        {% if is_edit %}
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteuser">
+            Delete User
+        </button>
+        {% endif %}
+        <!-- User Delete Modal -->
+        <div class="modal fade" id="deleteuser" tabindex="-1" role="dialog"
+            aria-labelledby="deleteuser" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}" style="color: black;">Are you sure
+                            you want to delete this user?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'delete_user' user.id %}" type="button"
+                            class="btn btn-primary">Yes, Delete</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     {% with named_formsets.gadgets as formset %}
     {{ formset.management_form }}
@@ -81,7 +111,6 @@
                 <th>Model <span style="color: red;" class="required">*</span></th>
                 <th>Color <span style="color: red;" class="required">*</span></th>
                 <th>Device ID <span style="color: red;" class="required">*</span></th>
-                <!-- <th>Delete Item?</th> -->
                 <th>Missing?</th>
             </thead>
             <tbody id="item-gadgets">
@@ -106,7 +135,7 @@
                             data-target="#exampleModal{{formss.instance.pk}}">
                             Delete
                         </button>
-                        <!-- Modal -->
+                        <!-- Gadget Delete Modal -->
                         <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
                             <div class="modal-dialog" role="document">

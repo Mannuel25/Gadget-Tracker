@@ -52,13 +52,9 @@
                         <p>No gadget available</p>
                         {% endif %}
                         <p> +{{ user.gadget_count }}</p>
-                        {% for gadget in gadgets %}
-                        {% if gadget.owner == user %}
-                        {% if gadget.missing %}
-                            <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
-                        {% endif %}
-                        {% endif %}
-                        {% endfor %}
+                        {% if user.missing_gadget_exists %}
+                                <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
+                            {% endif %}
                     </div>
                 </div>
                 </a>

@@ -30,38 +30,33 @@
                 <p class="gadget_header">Gadgets</p>
             </div>
             {% for user in staff %}
-            <a href="{% url 'update_user' user.id %}" class="user_link" >
-            <div class="user_card hover_card">
-                <div class="user_column">
-                    {% if user.picture %}
-                    <img src="{{user.picture.url}}" alt="">
-                    {% else %}
-                    <img src="{% static 'images/profile.jpg'%}" alt="">
-                    {% endif %}
-                    <div>
-                        <p class="user_name" style="margin-block: 9px;">{{user.full_name|title}}</p>
-                        
+                <a href="{% url 'update_user' user.id %}" class="user_link" >
+                    <div class="user_card hover_card">
+                        <div class="user_column">
+                            {% if user.picture %}
+                            <img src="{{user.picture.url}}" alt="">
+                            {% else %}
+                            <img src="{% static 'images/profile.jpg'%}" alt="">
+                            {% endif %}
+                            <div>
+                                <p class="user_name" style="margin-block: 9px;">{{user.full_name|title}}</p>
+                                
+                            </div>
+                        </div>
+                        <p class="mat_no">{{user.user_id }}</p>
+                        <p class="last_update">{{ user.date_updated }}</p>
+                        <div class="gadget_column">
+                            {% if user.first_gadget %}
+                                <p>{{ user.first_gadget.model }}</p>
+                            {% else %}
+                                <p>No gadget available</p>
+                            {% endif %}
+                            <p> +{{ user.gadget_count }}</p>
+                            {% if user.missing_gadget_exists %}
+                                    <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
+                                {% endif %}
+                        </div>
                     </div>
-                </div>
-                <p class="mat_no">{{user.user_id }}</p>
-                <p class="last_update">{{ user.date_updated }}</p>
-                <div class="gadget_column">
-                    {% if user.first_gadget %}
-                    <p>{{ user.first_gadget.model }}</p>
-                    {% else %}
-                    <p>No gadget available</p>
-                    {% endif %}
-                    <p> +{{ user.gadget_count }}</p>
-                    {% for gadget in gadgets %}
-                    {% if gadget.owner == user %}
-                    {% if gadget.missing %}
-                        <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
                 </a>
             {% endfor %}
         </div>

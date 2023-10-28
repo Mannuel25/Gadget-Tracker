@@ -15,10 +15,9 @@
         <li><div class="" href="#" id="dropdown" onclick="showDropDown()">
             <a>More Actions <i class='bx bx-caret-down'></i></a>
             <ul class="dashboard_dropdown">
-                <li><a href="{% url 'create_user' %}">Add User</a></li>
+                <li><a href="{% url 'create_user' %}">Add a User</a></li>
                 <li><a href="{% url 'missing_gadgets' %}">Missing Gadgets</a></li>
-                <li><a href="">Upload Users</a></li>
-                <li><a href="{% url 'download_template' %}">Download Template</a></li>
+                <li><a href="{% url 'upload_users' %}">Upload Users</a></li>
             </ul>
         </div></li>
         <li><a class="" href="{% url 'logout' %}">Logout</a></li>

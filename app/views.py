@@ -22,6 +22,9 @@ class HomePageView(TemplateView):
 class DashboardView(TemplateView):
     template_name = 'dashboard.html'
 
+class UplaodUsersView(TemplateView):
+    template_name = 'upload_users.html'
+
 
 def signup_user(request):
     if request.method == 'GET':
@@ -52,6 +55,18 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+
+def format_current_date_time():
+    # Get the current date and time
+    current_datetime = datetime.datetime.now()
+
+    # Format the date as MM/DD/YYYY
+    formatted_date = current_datetime.strftime("%m/%d/%Y")
+
+    # Format the time as HH:MM AM/PM
+    formatted_time = current_datetime.strftime("%I:%M %p")
+
+    return formatted_date + " " + formatted_time
 
 class UserAndGadgets():
     form_class = UserForm
@@ -87,17 +102,6 @@ class UserAndGadgets():
             variant.owner = self.object
             variant.save()
 
-def format_current_date_time():
-    # Get the current date and time
-    current_datetime = datetime.datetime.now()
-
-    # Format the date as MM/DD/YYYY
-    formatted_date = current_datetime.strftime("%m/%d/%Y")
-
-    # Format the time as HH:MM AM/PM
-    formatted_time = current_datetime.strftime("%I:%M %p")
-
-    return formatted_date + " " + formatted_time
 class UserGadgetsCreate(UserAndGadgets, CreateView):
 
     def get_context_data(self, **kwargs):
@@ -127,14 +131,13 @@ class UserGadgetsUpdate(UserAndGadgets, UpdateView):
         for gadget_form in formset:
             if gadget_form.instance.missing:
                 gadget_form.instance.missing_date = format_current_date_time()
-                gadget_form.instance.save()
             elif not gadget_form.instance.missing:
                 gadget_form.instance.missing_date = None
-                gadget_form.instance.save()
 
     def get_context_data(self, **kwargs):
         ctx = super(UserGadgetsUpdate, self).get_context_data(**kwargs)
         ctx['named_formsets'] = self.get_named_formsets()
+        ctx['is_edit'] = True
         return ctx
 
     def get_named_formsets(self):
@@ -158,6 +161,9 @@ def all_students(request):
             student.gadget_count = student.gadget_set.count() - 1
         else:
             student.gadget_count = student.gadget_set.count()
+        for gadget in gadgets:
+            if Gadget.objects.filter(owner=student, missing=True).exists():
+                student.missing_gadget_exists = True
 
     return render(request, 'students.html', {'students' : students, 'gadgets' :gadgets})
 
@@ -175,6 +181,9 @@ def all_staff(request):
             user.gadget_count = user.gadget_set.count() - 1
         else:
             user.gadget_count = user.gadget_set.count()
+        for gadget in gadgets:
+            if Gadget.objects.filter(owner=user, missing=True).exists():
+                user.missing_gadget_exists = True
 
     return render(request, 'staff.html', {'staff' : staff, 'gadgets' :gadgets})
 
@@ -192,6 +201,10 @@ def all_vendors(request):
             user.gadget_count = user.gadget_set.count() - 1
         else:
             user.gadget_count = user.gadget_set.count()
+        for gadget in gadgets:
+            if Gadget.objects.filter(owner=user, missing=True).exists():
+                user.missing_gadget_exists = True
+
     return render(request, 'vendors.html', {'vendors' : vendors, 'gadgets' :gadgets})
 
 
