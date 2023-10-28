@@ -153,17 +153,12 @@ def all_students(request):
         students = CustomUser.objects.filter(user_type='student', full_name__icontains=search_input)
     gadgets = Gadget.objects.all()
     for student in students:
-        student.first_gadget = student.gadget_set.first()  # Assuming your related name is 'gadget_set'
+        student.first_gadget = student.gadget_set.first()
+        if student.gadget_set.count() > 0:
+            student.gadget_count = student.gadget_set.count() - 1
+        else:
+            student.gadget_count = student.gadget_set.count()
 
-    # Annotate each student with the count of gadgets they own, subtracting 1 if the count is greater than 1
-    students = students.annotate(
-        gadget_count=Count('gadget'),
-        adjusted_gadget_count=Case(
-            When(gadget_count__gt=1, then=F('gadget_count') - 1),
-            default=F('gadget_count'),
-            output_field=models.IntegerField()
-        )
-    )
     return render(request, 'students.html', {'students' : students, 'gadgets' :gadgets})
 
 @login_required(login_url='login')
@@ -174,14 +169,13 @@ def all_staff(request):
     else:
         staff = CustomUser.objects.filter(full_name__icontains=search_input, user_type='staff')
     gadgets = Gadget.objects.all()
-    staff = staff.annotate(
-        gadget_count=Count('gadget'),
-        adjusted_gadget_count=Case(
-            When(gadget_count__gt=1, then=F('gadget_count') - 1),
-            default=F('gadget_count'),
-            output_field=models.IntegerField()
-        )
-    )
+    for user in staff:
+        user.first_gadget = user.gadget_set.first()
+        if user.gadget_set.count() > 0:
+            user.gadget_count = user.gadget_set.count() - 1
+        else:
+            user.gadget_count = user.gadget_set.count()
+
     return render(request, 'staff.html', {'staff' : staff, 'gadgets' :gadgets})
 
 @login_required(login_url='login')
@@ -192,14 +186,12 @@ def all_vendors(request):
     else:
         vendors = CustomUser.objects.filter(user_type='vendor', full_name__icontains=search_input)
     gadgets = Gadget.objects.all()
-    vendors = vendors.annotate(
-        gadget_count=Count('gadget'),
-        adjusted_gadget_count=Case(
-            When(gadget_count__gt=1, then=F('gadget_count') - 1),
-            default=F('gadget_count'),
-            output_field=models.IntegerField()
-        )
-    )
+    for user in vendors:
+        user.first_gadget = user.gadget_set.first()
+        if user.gadget_set.count() > 0:
+            user.gadget_count = user.gadget_set.count() - 1
+        else:
+            user.gadget_count = user.gadget_set.count()
     return render(request, 'vendors.html', {'vendors' : vendors, 'gadgets' :gadgets})
 
 
@@ -216,7 +208,7 @@ def delete_user(request, id):
 def delete_gadget(request, id):
     gadget = get_object_or_404(Gadget, id=id)
     gadget.delete()
-    return redirect('update_user', id=gadget.owner.id)
+    return redirect('dashboard')
 
 
 def download_template(request):
@@ -237,5 +229,14 @@ def missing_gadgets(request):
     if search_input == None:
         gadgets = Gadget.objects.filter(missing=True)
     else:
-        gadgets = Gadget.objects.filter(owner__full_name__icontains=search_input)
+        gadgets = Gadget.objects.filter(owner__full_name__icontains=search_input, missing=True)
     return render(request, 'missing_gadgets.html', {'gadgets' : gadgets})
+
+
+@login_required(login_url='login')
+def mark_gadget_as_found(request, id):
+    gadget = Gadget.objects.get(id=id)
+    gadget.missing, gadget.missing_date = False, None
+    gadget.save()
+    return redirect('missing_gadgets')
+

@@ -46,14 +46,16 @@
                 <p class="mat_no">{{user.user_id }}</p>
                 <p class="last_update">{{ user.date_updated }}</p>
                 <div class="gadget_column">
-                    {% if user.gadget_set.all %}
-                    <p>{{ user.gadget_set.first.model }}</p>
+                    {% if user.first_gadget %}
+                    <p>{{ user.first_gadget.model }}</p>
+                    {% else %}
+                    <p>No gadget available</p>
                     {% endif %}
-                    <p>{{ user.gadget_count }}</p>
+                    <p> +{{ user.gadget_count }}</p>
                     {% for gadget in gadgets %}
                     {% if gadget.owner == user %}
                     {% if gadget.missing %}
-                            <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
+                        <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
                     {% endif %}
                     {% endif %}
                     {% endfor %}

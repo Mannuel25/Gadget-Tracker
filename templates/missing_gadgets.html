@@ -24,13 +24,35 @@
                 <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
             </form>
             {% for gadget in gadgets %}
-            <a href="{% url 'missing_gadgets' %}" class="appts_link">
                 <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
                     <p class="appt_time">
-                        {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}
+                        {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}  - date reported: {{gadget.missing_date}}
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Mark as found
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure
+                                            you want to mark this gadget as found?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
+                                            class="btn btn-primary">Yes</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </p>
                 </div>
-            </a>
             {% endfor %}
         </div>
     </section>

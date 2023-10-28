@@ -18,4 +18,5 @@ urlpatterns = [
     path('gadgets/delete/<int:id>/', delete_gadget, name='delete_gadget'),
     path('download_template/', download_template, name='download_template'),
     path('missing_gadgets/', missing_gadgets, name='missing_gadgets'),
+    path('mark_gadget_as_found/<int:id>', mark_gadget_as_found, name='mark_gadget_as_found'),
 ]
