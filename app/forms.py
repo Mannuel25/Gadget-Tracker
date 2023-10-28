@@ -14,10 +14,10 @@ class CustomUserCreationForm(UserCreationForm):
 
 class UserForm(forms.ModelForm):
 
-    matric_no = forms.CharField(max_length=10, label="Matric number/ Staff ID")
+    user_id = forms.CharField(max_length=10, label="Matric number / Staff ID")
     class Meta:
         model = CustomUser
-        fields = ['full_name', 'matric_no', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
+        fields = ['full_name', 'user_id', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
         widgets = {
             'full_name': forms.TextInput(
                 attrs={

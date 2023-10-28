@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserForm, CustomUserCreationForm, GadgetFormSet
 from .models import CustomUser, Gadget
-import requests, os
+import requests, os, datetime
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
 import openpyxl
@@ -87,6 +87,17 @@ class UserAndGadgets():
             variant.owner = self.object
             variant.save()
 
+def format_current_date_time():
+    # Get the current date and time
+    current_datetime = datetime.datetime.now()
+
+    # Format the date as MM/DD/YYYY
+    formatted_date = current_datetime.strftime("%m/%d/%Y")
+
+    # Format the time as HH:MM AM/PM
+    formatted_time = current_datetime.strftime("%I:%M %p")
+
+    return formatted_date + " " + formatted_time
 class UserGadgetsCreate(UserAndGadgets, CreateView):
 
     def get_context_data(self, **kwargs):
@@ -106,15 +117,31 @@ class UserGadgetsCreate(UserAndGadgets, CreateView):
 
 class UserGadgetsUpdate(UserAndGadgets, UpdateView):
 
+    def formset_gadgets_valid(self, formset):
+        # Call the parent formset valid method to save the formset.
+        super(UserGadgetsUpdate, self).formset_gadgets_valid(formset)
+
+        # get the particular gadget that was set to missing or not..making use of
+        # the current timeand date, store the time and date it was reported missing
+        # if it's been found, remove the date and time
+        for gadget_form in formset:
+            if gadget_form.instance.missing:
+                gadget_form.instance.missing_date = format_current_date_time()
+                gadget_form.instance.save()
+            elif not gadget_form.instance.missing:
+                gadget_form.instance.missing_date = None
+                gadget_form.instance.save()
+
     def get_context_data(self, **kwargs):
         ctx = super(UserGadgetsUpdate, self).get_context_data(**kwargs)
         ctx['named_formsets'] = self.get_named_formsets()
         return ctx
 
     def get_named_formsets(self):
-        return {
+        formsets = {
             'gadgets': GadgetFormSet(self.request.POST or None, self.request.FILES or None, instance=self.object, prefix='gadgets'),
-        }
+            }
+        return formsets
 
 
 @login_required(login_url='login')
@@ -189,12 +216,11 @@ def delete_user(request, id):
 def delete_gadget(request, id):
     gadget = get_object_or_404(Gadget, id=id)
     gadget.delete()
-    return redirect('update_user', id=gadget.owner
-    .id)
+    return redirect('update_user', id=gadget.owner.id)
 
 
 def download_template(request):
-    url = 'https://github.com/Mannuel25/Gadget-Guardian/blob/main/User_Gadgets_Template.xlsx'
+    url = 'https://github.com/Mannuel25/Gadget-Tracker/blob/main/User_Gadgets_Template.xlsx'
     file_extension = '.xlsx'
     r = requests.get(url)
     filename = url.split("/")[-1]
@@ -207,5 +233,9 @@ def download_template(request):
 
 @login_required(login_url='login')
 def missing_gadgets(request):
-    gadgets = Gadget.objects.filter(missing=True)
+    search_input = request.GET.get('search')
+    if search_input == None:
+        gadgets = Gadget.objects.filter(missing=True)
+    else:
+        gadgets = Gadget.objects.filter(owner__full_name__icontains=search_input)
     return render(request, 'missing_gadgets.html', {'gadgets' : gadgets})

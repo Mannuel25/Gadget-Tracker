@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Staff - Gadget-Guardian{% endblock title %}</title>
+    <title>{% block title %}Missing Gadgets - Gadget-Tracker{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/articleslist.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -19,11 +19,15 @@
     {% include 'nav.html' %}
     <section class="home-section" style="background-color: white;" id="btn;">
         <div style="margin-top: 50px;">
-            {% for user in staff %}
-            <a href="{% url 'update_user' user.id %}" class="appts_link">
+            <form method="GET" id="searchbar">
+                <input name="search" type="search" placeholder="Search for a user..." id="search_input" />
+                <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
+            </form>
+            {% for gadget in gadgets %}
+            <a href="{% url 'missing_gadgets' %}" class="appts_link">
                 <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
                     <p class="appt_time">
-                        {{user.full_name|title}} - {{user.staff_id }} - {{user.email }}
+                        {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}
                     </p>
                 </div>
             </a>

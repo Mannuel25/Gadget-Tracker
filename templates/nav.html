@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&display=swap" rel="stylesheet">
 </head>
 <nav id="main-nav">
-    <a id="logo" href="{% url 'dashboard' %}">Gadget Guardian</a>
+    <a id="logo" href="{% url 'dashboard' %}">Gadget Tracker</a>
     <ul>
         <li><a class="" href="{% url 'all_students' %}">Students</a></li>
         <li><a class="" href="{% url 'all_staff' %}">Staff</a></li>
@@ -16,7 +16,7 @@
             <a>More Actions <i class='bx bx-caret-down'></i></a>
             <ul class="dashboard_dropdown">
                 <li><a href="{% url 'create_user' %}">Add User</a></li>
-                <li><a href="">Missing Gadgets</a></li>
+                <li><a href="{% url 'missing_gadgets' %}">Missing Gadgets</a></li>
                 <li><a href="">Upload Users</a></li>
                 <li><a href="{% url 'download_template' %}">Download Template</a></li>
             </ul>

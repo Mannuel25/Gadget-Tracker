@@ -59,6 +59,7 @@ class CustomUser(AbstractUser):
         ('nursing', 'Nursing Sciences'),
         ('bus_admin', 'Business Administration'),
         ('econs', 'Economics'),
+        ('b_tech', 'B-Tech'),
         ('marketing', 'Marketing'),
         ('micro_bio', 'Micobiology'),
         ('bio_tech', 'BioTechnology'),
@@ -66,7 +67,7 @@ class CustomUser(AbstractUser):
         )
     username = None
     full_name = models.CharField(max_length=50, blank=True, null=True)
-    matric_no = models.CharField(_("Matric number"), unique=True, max_length=10, blank=True, null=True)
+    user_id = models.CharField(_("Matric number / Staff ID"), unique=True, max_length=10, blank=True, null=True)
     user_type = models.CharField(default='staff', choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
     email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
     phone_no = models.CharField(_("Phone number"), max_length=50, blank=True, null=True)
@@ -86,16 +87,12 @@ class CustomUser(AbstractUser):
         return f"{self.full_name} - {self.email}"
 
 class Gadget(models.Model):
-    STATUS_CHOICES = (
-        ('missing', 'Missing'),
-        ('available', 'Available'),
-    )
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     model = models.CharField(max_length=150, blank=True, null=True)
     color = models.CharField(max_length=150, blank=True, null=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=50, blank=True, null=True)
     device_id = models.CharField(max_length=500, blank=True, null=True)
     missing = models.BooleanField(default=False)
+    missing_date = models.CharField(max_length=150, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 

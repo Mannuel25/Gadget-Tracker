@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Staff - Gadget-Guardian{% endblock title %}</title>
+    <title>{% block title %}Staff - Gadget-Tracker{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/articleslist.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -31,12 +31,7 @@
             </div>
             {% for user in staff %}
             <a href="{% url 'update_user' user.id %}" class="user_link" >
-            {% if user.matric_no == "123321" %}
-            <!-- change this if statement to check if gadget is missing -->
-            <div class="user_card hover_card" title="Gadget reported missing!">
-            {% else %}
             <div class="user_card hover_card">
-            {% endif %}
                 <div class="user_column">
                     {% if user.picture %}
                     <img src="{{user.picture.url}}" alt="">
@@ -48,7 +43,7 @@
                         
                     </div>
                 </div>
-                <p class="mat_no">{{user.matric_no }}</p>
+                <p class="mat_no">{{user.user_id }}</p>
                 <p class="last_update">{{ user.date_updated }}</p>
                 <div class="gadget_column">
                     {% if user.gadget_set.all %}
@@ -58,15 +53,14 @@
                     {% for gadget in gadgets %}
                     {% if gadget.owner == user %}
                     {% if gadget.missing %}
-                    <div class="missing_badge bx bxs-error-circle"></div>
+                            <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
                     {% endif %}
                     {% endif %}
                     {% endfor %}
                 </div>
-                </div>
-                </div>
+            </div>
+        </div>
                 </a>
-               
             {% endfor %}
         </div>
         </section>
