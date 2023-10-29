@@ -22,10 +22,30 @@
             Upload Users in a Flash <i class="fa fa-bolt" aria-hidden="true"></i>
             <p><a href="{% url 'download_template' %}">Download Template</a></p>
 
-            <p>Steps:</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum dolor doloribus commodi obcaecati nihil soluta culpa, eveniet, officia sunt rem explicabo. Commodi delectus sapiente natus veritatis, fugit tenetur rem porro!</p>
-            <a href=""></a>
-
+            <p>Steps to upload:</p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum dolor 
+                doloribus commodi obcaecatis veritatis, fugit tenetur rem porro!
+            </p>
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-success" box-shadow="none">Submit</button>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                <div class= "{{ message.tags }}" id='alert_msg' style="box-sizing: border-box;">
+                    {{ message|truncatechars:50 }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <script>
+                setTimeout(function () {
+                    if ($('#alert_msg').length > 0) {
+                        $('#alert_msg').remove();
+                    }
+                }, 8000)
+            </script>
         </div>
     </section>
     </section>

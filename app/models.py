@@ -59,7 +59,7 @@ class CustomUser(AbstractUser):
         ('nursing', 'Nursing Sciences'),
         ('bus_admin', 'Business Administration'),
         ('econs', 'Economics'),
-        ('b_tech', 'B-Tech'),
+        ('computing', 'Computing'),
         ('marketing', 'Marketing'),
         ('micro_bio', 'Micobiology'),
         ('bio_tech', 'BioTechnology'),
@@ -67,7 +67,7 @@ class CustomUser(AbstractUser):
         )
     username = None
     full_name = models.CharField(max_length=50, blank=True, null=True)
-    user_id = models.CharField(_("Matric number / Staff ID"), unique=True, max_length=10, blank=True, null=True)
+    user_id = models.CharField(_("Matric number/Staff ID/Vendor ID"), unique=True, max_length=20, blank=True, null=True)
     user_type = models.CharField(default='staff', choices=USER_TYPE_CHOICES, max_length=50, blank=True, null=True)
     email = models.EmailField(_("email address"),  max_length=50, null=True, blank=True, unique=True)
     phone_no = models.CharField(_("Phone number"), max_length=50, blank=True, null=True)
@@ -98,4 +98,10 @@ class Gadget(models.Model):
 
     def __str__(self):
         return f"{self.model}"
+
+class UploadedTemplates(models.Model):
+    uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    doc = models.FileField(upload_to="uploaded_templates/", blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
 

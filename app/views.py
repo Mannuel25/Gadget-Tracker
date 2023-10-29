@@ -7,23 +7,32 @@ from .decorators import for_admins
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserForm, CustomUserCreationForm, GadgetFormSet
+from .forms import UserForm, CustomUserCreationForm, GadgetFormSet, UploadedTemplatesForm
 from .models import CustomUser, Gadget
-import requests, os, datetime
+import requests, datetime, os
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
 import openpyxl
-from django.db.models import Count, Case, When, F
 from django.db import models
+
+def format_current_date_time():
+    # Get the current date and time
+    current_datetime = datetime.datetime.now()
+
+    # Format the date as MM/DD/YYYY
+    formatted_date = current_datetime.strftime("%m/%d/%Y")
+
+    # Format the time as HH:MM AM/PM
+    formatted_time = current_datetime.strftime("%I:%M %p")
+    print(formatted_date + " " + formatted_time)
+
+    return formatted_date + " " + formatted_time
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
 class DashboardView(TemplateView):
     template_name = 'dashboard.html'
-
-class UplaodUsersView(TemplateView):
-    template_name = 'upload_users.html'
 
 
 def signup_user(request):
@@ -55,18 +64,6 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
-
-def format_current_date_time():
-    # Get the current date and time
-    current_datetime = datetime.datetime.now()
-
-    # Format the date as MM/DD/YYYY
-    formatted_date = current_datetime.strftime("%m/%d/%Y")
-
-    # Format the time as HH:MM AM/PM
-    formatted_time = current_datetime.strftime("%I:%M %p")
-
-    return formatted_date + " " + formatted_time
 
 class UserAndGadgets():
     form_class = UserForm
@@ -122,17 +119,14 @@ class UserGadgetsCreate(UserAndGadgets, CreateView):
 class UserGadgetsUpdate(UserAndGadgets, UpdateView):
 
     def formset_gadgets_valid(self, formset):
-        # Call the parent formset valid method to save the formset.
-        super(UserGadgetsUpdate, self).formset_gadgets_valid(formset)
-
-        # get the particular gadget that was set to missing or not..making use of
-        # the current timeand date, store the time and date it was reported missing
-        # if it's been found, remove the date and time
         for gadget_form in formset:
             if gadget_form.instance.missing:
                 gadget_form.instance.missing_date = format_current_date_time()
-            elif not gadget_form.instance.missing:
+            else:
                 gadget_form.instance.missing_date = None
+        formset.save()
+
+        super(UserGadgetsUpdate, self).formset_gadgets_valid(formset)
 
     def get_context_data(self, **kwargs):
         ctx = super(UserGadgetsUpdate, self).get_context_data(**kwargs)
@@ -225,7 +219,7 @@ def delete_gadget(request, id):
 
 
 def download_template(request):
-    url = 'https://res.cloudinary.com/dq5fvxkeo/raw/upload/v1698499311/User_Gadgets_Template_zkqpch.xlsx'
+    url = 'https://res.cloudinary.com/dq5fvxkeo/raw/upload/v1698532497/User_Gadgets_Template_iqiefc.xlsx'
     r = requests.get(url)
     filename = 'User_Gadgets_Template.xlsx'
     with open(filename, 'wb') as f:
@@ -251,4 +245,92 @@ def mark_gadget_as_found(request, id):
     gadget.missing, gadget.missing_date = False, None
     gadget.save()
     return redirect('missing_gadgets')
+
+def read_upload_users(filename):
+    """
+    It reads through the uploaded excel sheet, and saves the
+    user details with their gadgets to the DB
+    """
+    try:
+        filepath = f'media/uploaded_templates/{filename}'
+        wb_obj = openpyxl.load_workbook(filepath, read_only=True)
+        sheet_obj = wb_obj.active
+        headers = next(sheet_obj.rows)
+        headers, records = [i.value for i in headers], []
+        row_count = 1
+        DEPARTMENT_CHOICES = {
+            'Mass Communication' : 'mass_com',
+            'Information Technology' : 'info_tech',
+            'International Relations' : 'interel',
+            'Medical Laboratory Sciences' : 'med_lab',
+            'Accounting' : 'accounting',
+            'Political Science' : 'pol_sci',
+            'Nursing Sciences' : 'nursing',
+            'Business Administration' : 'bus_admin',
+            'Economics' : 'econs',
+            'B-Tech' : 'b_tech',
+            'Marketing' : 'marketing',
+            'Micobiology' : 'micro_bio',
+            'BioTechnology' : 'bio_tech',
+            'Computer Science' : 'comp_sci',
+        }
+        for c in sheet_obj.rows:
+            if row_count > 1:
+                if not all([rec.value is None for rec in c]):
+                    # get the inputed details and save in a list
+                    data = [rec.value for rec in c]
+                    if data[6] is not None:
+                        department = DEPARTMENT_CHOICES[data[6]]
+                    else:
+                        department = None 
+                    user_details = {
+                        'full_name' : data[0],
+                        'user_id' : data[1],
+                        'user_type' : data[2].lower(),
+                        'phone_no' : data[3],
+                        'email' : data[4],
+                        'address' : data[5],
+                        'department' : DEPARTMENT_CHOICES[data[6]] if data[6] is not None else None,
+                        'level' : data[7],
+                        }
+                    new_user = CustomUser.objects.create(**user_details)
+                    # create a gadget instance
+                    gadget_details = {  
+                        'owner' : new_user,
+                        'model' : data[8],
+                        'color' : data[9],
+                        'device_id' : data[10]
+                    }
+                    gadget = Gadget.objects.create(**gadget_details)
+                else:
+                    pass
+            row_count += 1
+        wb_obj.close()
+        os.remove(filepath)
+        return True, "Users uploaded successfully"
+    except Exception as e:
+        os.remove(filepath)
+        return False, "Users upload failed " + str(e)
+
+def upload(request):
+    if request.method == 'GET':
+        form = UploadedTemplatesForm
+    elif request.method == 'POST':
+        form = UploadedTemplatesForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            filename = request.FILES["doc"].name
+            filepath = f"media/uploaded_templates/{filename}"
+            if filename.split('.')[-1] != 'xlsx':
+                messages.error(request, "Invalid file uploaded!")
+                os.remove(filepath)
+            else:
+                upload_func = read_upload_users(filename)
+                if upload_func[0] != None:
+                    messages.success
+                    messages.success(request, upload_func[1])
+                else:
+                    messages.success(request, upload_func[1])
+                    # messages.error(request, upload_func[1])
+    return render(request, 'upload_users.html', context={'form': form})
 

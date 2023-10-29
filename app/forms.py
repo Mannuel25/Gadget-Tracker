@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-from .models import Gadget, CustomUser
+from .models import Gadget, CustomUser, UploadedTemplates
 from django.forms import BaseInlineFormSet, HiddenInput
 
 class CustomUserCreationForm(UserCreationForm):
@@ -14,7 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 class UserForm(forms.ModelForm):
 
-    user_id = forms.CharField(max_length=10, label="Matric number / Staff ID")
+    user_id = forms.CharField(max_length=10, label="Matric number/Staff ID/Vendor ID")
     class Meta:
         model = CustomUser
         fields = ['full_name', 'user_id', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']
@@ -44,4 +44,9 @@ class CustomGadgetFormSet(BaseInlineFormSet):
             form.fields['DELETE'].widget = HiddenInput()
 
 GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True, formset=CustomGadgetFormSet)
+
+class UploadedTemplatesForm(forms.ModelForm):
+    class Meta:
+        model = UploadedTemplates
+        fields = ['doc']
 
