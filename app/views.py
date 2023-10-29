@@ -12,7 +12,7 @@ from .models import CustomUser, Gadget
 import requests, datetime, os
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
-import openpyxl
+import openpyxl, time
 from django.db import models
 
 def format_current_date_time():
@@ -253,7 +253,7 @@ def read_upload_users(filename):
     """
     try:
         filepath = f'media/uploaded_templates/{filename}'
-        wb_obj = openpyxl.load_workbook(filepath, read_only=True)
+        wb_obj = openpyxl.load_workbook(filepath)
         sheet_obj = wb_obj.active
         headers = next(sheet_obj.rows)
         headers, records = [i.value for i in headers], []
@@ -279,37 +279,45 @@ def read_upload_users(filename):
                 if not all([rec.value is None for rec in c]):
                     # get the inputed details and save in a list
                     data = [rec.value for rec in c]
-                    if data[6] is not None:
-                        department = DEPARTMENT_CHOICES[data[6]]
+                    # check if that user with a gadget exists...if it does udpate the gadgets he/she has
+                    user = CustomUser.objects.filter(user_id=data[1], email=data[4])
+                    if user.exists():
+                        gadget_ = Gadget.objects.filter(owner=user.first(), model=data[8])
+                        if not gadget_.exists():
+                            gadget_details = {
+                                'owner' : user.first(),
+                                'model' : data[8],
+                                'color' : data[9],
+                                'device_id' : data[10]
+                            }
+                            Gadget.objects.create(**gadget_details)
                     else:
-                        department = None 
-                    user_details = {
-                        'full_name' : data[0],
-                        'user_id' : data[1],
-                        'user_type' : data[2].lower(),
-                        'phone_no' : data[3],
-                        'email' : data[4],
-                        'address' : data[5],
-                        'department' : DEPARTMENT_CHOICES[data[6]] if data[6] is not None else None,
-                        'level' : data[7],
+                        # create a new user instance
+                        user_details = {
+                            'full_name' : data[0],
+                            'user_id' : data[1],
+                            'user_type' : data[2].lower(),
+                            'phone_no' : data[3],
+                            'email' : data[4],
+                            'address' : data[5],
+                            'department' : DEPARTMENT_CHOICES[data[6]] if data[6] else None,
+                            'level' : data[7],
+                            }
+                        new_user = CustomUser.objects.create(**user_details)
+                        # create a gadget instance
+                        gadget_details = {  
+                            'owner' : new_user,
+                            'model' : data[8],
+                            'color' : data[9],
+                            'device_id' : data[10]
                         }
-                    new_user = CustomUser.objects.create(**user_details)
-                    # create a gadget instance
-                    gadget_details = {  
-                        'owner' : new_user,
-                        'model' : data[8],
-                        'color' : data[9],
-                        'device_id' : data[10]
-                    }
-                    gadget = Gadget.objects.create(**gadget_details)
+                        gadget = Gadget.objects.create(**gadget_details)
                 else:
                     pass
             row_count += 1
         wb_obj.close()
-        os.remove(filepath)
         return True, "Users uploaded successfully"
     except Exception as e:
-        os.remove(filepath)
         return False, "Users upload failed " + str(e)
 
 def upload(request):
@@ -326,11 +334,11 @@ def upload(request):
                 os.remove(filepath)
             else:
                 upload_func = read_upload_users(filename)
-                if upload_func[0] != None:
-                    messages.success
+                if upload_func[0]:
                     messages.success(request, upload_func[1])
                 else:
-                    messages.success(request, upload_func[1])
-                    # messages.error(request, upload_func[1])
+                    messages.warning(request, upload_func[1])
+                time.sleep(1)
+                os.remove(filepath)
     return render(request, 'upload_users.html', context={'form': form})
 

@@ -14,7 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 class UserForm(forms.ModelForm):
 
-    user_id = forms.CharField(max_length=10, label="Matric number/Staff ID/Vendor ID")
+    user_id = forms.CharField(max_length=20, label="Matric number/Staff ID/Vendor ID")
     class Meta:
         model = CustomUser
         fields = ['full_name', 'user_id', 'user_type', 'email', 'phone_no', 'address', 'level', 'department', 'picture']

@@ -79,7 +79,8 @@
                         </button>
                     </div>
                     <div class="modal-footer">
-                        <a href="{% url 'delete_user' user.id %}" type="button"
+                        {{formss.instance.pk}}
+                        <a href="{% url 'delete_user' form.instance.id %}" type="button"
                             class="btn btn-primary">Yes, Delete</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>

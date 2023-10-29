@@ -34,9 +34,17 @@
             </form>
             {% if messages %}
                 {% for message in messages %}
-                <div class= "{{ message.tags }}" id='alert_msg' style="box-sizing: border-box;">
-                    {{ message|truncatechars:50 }}
-                </div>
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success" id='alert_msg'>
+                            <button type="button" class="close" data-dismiss="alert" style="outline: none;">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% elif message.tags == 'warning' %}
+                        <div class="alert alert-danger" id='alert_msg'>
+                            <button type="button" class="close" data-dismiss="alert" style="outline: none;">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
             <script>
