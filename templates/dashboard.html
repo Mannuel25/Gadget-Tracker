@@ -20,6 +20,42 @@
     {% include 'nav.html' %}
     <section class="main_section" id="btn;" onclick="removeDropDown()">
       <h2 style="color:black;">Nothing to see here yet!</h2>
+      <h2 style="color:black;">Recently Missing Gadgets</h2>
+      {% for gadget in missing_gadgets %}
+        {% if gadget.missing %}
+          <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
+            <p class="appt_time">
+              {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}  - date reported: {{gadget.missing_date}}
+            </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <br>
+      <h2 style="color:black;">Report a Missing Gadget</h2>
+      <form method="GET" id="searchbar">
+        <input name="search" type="search" placeholder="Search for a gadget..." id="search_input" />
+        <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
+    </form>
+    {% for gadget in gadgets %}
+      <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
+        <p class="appt_time">
+          {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}
+        </p>
+      </div>
+      {% endfor %}
+      <h2 style="color:black;">Users</h2>
+      <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
+        <p lass="appt_time">
+          Total Population: {{ users_count.total_count}}
+        </p>
+        <p class="appt_time">
+          Number of Students: {{ users_count.student_count }}
+          <br>
+          Number of Staff : {{ users_count.staff_count }}
+          <br>
+          Number of Vendors : {{ users_count.vendor_count }}
+        </p>
+      </div>
       <!-- <a href="{% url 'edit'}"></a> -->
       <!-- <script
         src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

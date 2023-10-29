@@ -9,10 +9,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserForm, CustomUserCreationForm, GadgetFormSet, UploadedTemplatesForm
 from .models import CustomUser, Gadget
-import requests, datetime, os
+import requests, datetime, os, openpyxl, time
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
-import openpyxl, time
 from django.db import models
 
 def format_current_date_time():
@@ -31,8 +30,24 @@ def format_current_date_time():
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
-class DashboardView(TemplateView):
-    template_name = 'dashboard.html'
+
+@login_required(login_url='login')
+def dashboard(request):
+    search_input = request.GET.get('search')
+    gadgets = Gadget.objects.filter(model__icontains=search_input) if search_input else None
+    missing_gadgets = Gadget.objects.filter(missing=True)
+    student_count = CustomUser.objects.filter(user_type='student').count()
+    staff_count = CustomUser.objects.filter(user_type='staff').count()
+    vendor_count = CustomUser.objects.filter(user_type='student').count()
+    total_count = student_count + staff_count + vendor_count
+    users_count = {
+        'total_count' : total_count, 'student_count' : student_count, 
+        'staff_count' : staff_count, 'vendor_count' : vendor_count
+        }
+    return render(request, 'dashboard.html', {
+        'gadgets' : gadgets, 'users_count' : users_count, 'missing_gadgets' : missing_gadgets
+        }
+    )
 
 
 def signup_user(request):
@@ -246,6 +261,7 @@ def mark_gadget_as_found(request, id):
     gadget.save()
     return redirect('missing_gadgets')
 
+
 def read_upload_users(filename):
     """
     It reads through the uploaded excel sheet, and saves the
@@ -319,6 +335,7 @@ def read_upload_users(filename):
         return True, "Users uploaded successfully"
     except Exception as e:
         return False, "Users upload failed " + str(e)
+
 
 def upload(request):
     if request.method == 'GET':
