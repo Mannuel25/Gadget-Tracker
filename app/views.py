@@ -296,7 +296,8 @@ def read_upload_users(filename):
                     # get the inputed details and save in a list
                     data = [rec.value for rec in c]
                     # check if that user with a gadget exists...if it does udpate the gadgets he/she has
-                    user = CustomUser.objects.filter(user_id=data[1], email=data[4])
+                    user = CustomUser.objects.filter(user_id=data[1])
+                    print(user)
                     if user.exists():
                         gadget_ = Gadget.objects.filter(owner=user.first(), model=data[8])
                         if not gadget_.exists():
@@ -343,12 +344,12 @@ def upload(request):
     elif request.method == 'POST':
         form = UploadedTemplatesForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.uploaded_by = request.user
             form.save()
             filename = request.FILES["doc"].name
             filepath = f"media/uploaded_templates/{filename}"
             if filename.split('.')[-1] != 'xlsx':
                 messages.error(request, "Invalid file uploaded!")
-                os.remove(filepath)
             else:
                 upload_func = read_upload_users(filename)
                 if upload_func[0]:
@@ -356,6 +357,5 @@ def upload(request):
                 else:
                     messages.warning(request, upload_func[1])
                 time.sleep(1)
-                os.remove(filepath)
     return render(request, 'upload_users.html', context={'form': form})
 
