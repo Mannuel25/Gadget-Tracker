@@ -75,6 +75,7 @@ def login_user(request):
     return render(request, 'login.html')
 
 
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('home')
@@ -233,6 +234,7 @@ def delete_gadget(request, id):
     return redirect('dashboard')
 
 
+@login_required(login_url='login')
 def download_template(request):
     url = 'https://res.cloudinary.com/dq5fvxkeo/raw/upload/v1698532497/User_Gadgets_Template_iqiefc.xlsx'
     r = requests.get(url)
@@ -337,7 +339,7 @@ def read_upload_users(filename):
     except Exception as e:
         return False, "Users upload failed " + str(e)
 
-
+@login_required(login_url='login')
 def upload(request):
     if request.method == 'GET':
         form = UploadedTemplatesForm
