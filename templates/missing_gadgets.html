@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Missing Gadgets - Gadget-Tracker{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/articleslist.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/109fe23f15.js" crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
@@ -17,47 +16,66 @@
 
 <body>
     {% include 'nav.html' %}
-    <section class="home-section" style="background-color: white;" id="btn;">
-        <div style="margin-top: 50px;">
+    <section class="main_section" id="btn;" onclick="removeDropDown()">
             <form method="GET" id="searchbar">
                 <input name="search" type="search" placeholder="Search for a gadget..." id="search_input" />
                 <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
             </form>
-            {% for gadget in gadgets %}
-                <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
-                    <p class="appt_time">
-                        {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}  - date reported: {{gadget.missing_date}}
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                            data-target="#exampleModal">
-                            Mark as found
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Are you sure
-                                            you want to mark this gadget as found?</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
-                                            class="btn btn-primary">Yes</a>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <div class="table_container">
+                {% for gadget in gadgets %}
+                    <div class="user_card hover_card">
+                        <div class="gadget_info">
+                            <p>{{gadget.model|title}}</p>
+                            <p>{{gadget.device_id}} color: {{gadget.color|title}}</p>
+                        </div>
+                        <div class="owner">
+                            <p>Owner: {{gadget.owner.full_name|title}}</p>
+                            <p>Date reported: {{gadget.missing_date}}</p>
+                        </div>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> Mark as found </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure
+                                                you want to mark this gadget as found?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
+                                                class="btn btn-primary">Yes</a>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </p>
-                </div>
-            {% endfor %}
-        </div>
+                    </div>
+                {% endfor %}
+            </div>
     </section>
-    </section>
+    <style>
+        body{
+          background-color: #ffffff;
+          background-image:  linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77);
+          background-size: 18px 32px;
+          background-position: 0 0, 0 0, 9px 16px, 9px 16px, 0 0, 9px 16px;
+        }
+      </style>
 </body>
+<script>
+    const removeDropDown = () =>{
+     let dropdown = document.querySelector(".dashboard_dropdown");
+     if (!dropdown){return}
+     dropdown.style.animation = "fadedown 0.3s"
+     setTimeout(()=>{
+         dropdown.style.display = "none"
+     }, 250)
+ }
+</script>
 <script src="{% static 'js/articleslist.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

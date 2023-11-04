@@ -322,6 +322,97 @@ a{
     padding: 4px 4px -34px 4px;
     /* margin-bottom: 25px;} */
 }
+.upload_text{
+    height: 91vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+   
+}
+.upload_text > div > h2{
+    font-weight: 600;
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 15px;
+}
+.upload_div_1{
+    animation: fadeup 0.5s;
+}
+.download_template{
+    display: block;
+    padding: 12.5px 25px;
+    margin: 25px auto 15px auto;
+    border: none;
+    background: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.539);
+    transition: 0.2s;
+    cursor: pointer;
+}
+.download_template:hover{
+    scale: 1.06;
+}
+.download_template a{
+    color: white;
+    font-size: 1.3em;
+}
+.download_template a:hover{
+    font-weight: 800px;
+    text-decoration: none;
+}
+.excel_img{
+    margin-top: 30px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.453);
+    border-radius: 5px;
+    animation: fadeup 0.8s;
+    height: 250px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+.upload_steps ul{
+    margin: 0;
+}
+.upload_steps{
+    background: var(--primary-color);
+    color: white !important;
+    width: 98.55vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+.upload_steps li{
+    margin-bottom: 10px;
+}
+.upload_steps>h3{
+    text-align: center;    
+    font-weight: 600;
+    margin: 30px 0 20px 0;
+    font-size: 2.3em;
+}
+.upload_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.upload_form label{
+    display: none;
+}
+.upload_form input{
+    padding: 0 0 0 60px;
+}
+.upload_form button{
+    color:var(--primary-color);
+    background: #fff;
+    font-size: 1.3em;
+    margin-bottom: 50px;
+    font-weight: 600;
+}
 @keyframes slideup {
     0% {
         transform: translateY(42vw);

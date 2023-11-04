@@ -17,47 +17,66 @@
 
 <body>
     {% include 'nav.html' %}
-    <section class="home-section" style="background-color: white;" id="btn;">
-        <div style="margin-top: 50px;">
-            Upload Users in a Flash <i class="fa fa-bolt" aria-hidden="true"></i>
-            <p><a href="{% url 'download_template' %}">Download Template</a></p>
-
-            <p>Steps to upload:</p>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum dolor 
-                doloribus commodi obcaecatis veritatis, fugit tenetur rem porro!
-            </p>
-            <form enctype="multipart/form-data" method="post">
-                {% csrf_token %}
-                {{ form }}
-                <button type="submit" class="btn btn-success" box-shadow="none">Submit</button>
-            </form>
-            {% if messages %}
+    <section class="upload_text" id="btn;" onclick="removeDropDown()">
+            <div class="upload_div_1">
+                <h2>Upload Users in a Flash <i class="fa fa-bolt" aria-hidden="true" style="color: rgb(255, 132, 0);"></i></h2>
+                <img class="excel_img" src="{% static 'images/excel-img.jpg' %}" alt="">
+            </div>
+            <button class="download_template"><a href="{% url 'download_template' %}">Download Excel Template</a></button>
+            <div class="upload_steps">
+                <h3>Steps to Upload</h3>
+               <ul>
+                    <li>1. Click the button above to download the Excel template</li>
+                    <li>2. Fil in the in entries for Students, Vendors or Staff</li>
+                    <li>3. Verify the information in your filled spreadsheet.</li>
+                    <li>4. Upload the filled template below</li>
+               </ul>
+               <form enctype="multipart/form-data" method="post" class="upload_form">
+                   {% csrf_token %}
+                   {{ form }}
+                   <button type="submit" class="download_template" box-shadow="none">Upload Template</button>
+                </form>
+                {% if messages %}
                 {% for message in messages %}
                     {% if message.tags == 'success' %}
                         <div class="alert alert-success" id='alert_msg'>
                             <button type="button" class="close" data-dismiss="alert" style="outline: none;">&times;</button>
                             {{ message }}
                         </div>
-                    {% elif message.tags == 'warning' %}
+                        {% elif message.tags == 'warning' %}
                         <div class="alert alert-danger" id='alert_msg'>
                             <button type="button" class="close" data-dismiss="alert" style="outline: none;">&times;</button>
                             {{ message }}
                         </div>
                     {% endif %}
                 {% endfor %}
-            {% endif %}
-            <script>
-                setTimeout(function () {
-                    if ($('#alert_msg').length > 0) {
-                        $('#alert_msg').remove();
-                    }
-                }, 8000)
-            </script>
-        </div>
+                {% endif %}
+            </div>
     </section>
-    </section>
+    <style>
+        body{
+            background-color: #ffffff;
+            background-image:  linear-gradient(#d2d4ff 0.6000000000000001px, transparent 0.6000000000000001px), linear-gradient(to right, #d2d4ff 0.6000000000000001px, #ffffff 0.6000000000000001px);
+            background-size: 12px 12px;
+        }
+      </style>
 </body>
+<script>
+    setTimeout(function () {
+        if ($('#alert_msg').length > 0) {
+            $('#alert_msg').remove();
+        }
+    }, 8000);
+
+    const removeDropDown = () =>{
+    let dropdown = document.querySelector(".dashboard_dropdown");
+    if (!dropdown){return}
+    dropdown.style.animation = "fadedown 0.3s"
+    setTimeout(()=>{
+        dropdown.style.display = "none"
+    }, 250)
+}
+</script>
 <script src="{% static 'js/articleslist.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
