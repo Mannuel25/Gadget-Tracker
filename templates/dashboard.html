@@ -8,78 +8,82 @@
     <title>
       {% block title %} Dashboard - Gadget-Tracker {% endblock title %}
     </title>
-    <!-- <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" /> -->
-    <!-- <link
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" /> 
+    <link
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
-    /> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+    />
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   </head>
 
   <body>
     {% include 'nav.html' %}
     <section class="main_section" id="btn;" onclick="removeDropDown()">
-      <h2 style="color:black;">Nothing to see here yet!</h2>
-      <h2 style="color:black;">Recently Missing Gadgets</h2>
-      {% for gadget in missing_gadgets %}
-        {% if gadget.missing %}
-          <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
-            <p class="appt_time">
-              {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}  - date reported: {{gadget.missing_date}}
-            </p>
+      <h2 class="dash_missing">Missing Gadgets</h2>
+      <div class="gadgets_wrapper">
+        {% for gadget in missing_gadgets %}
+          {% if gadget.missing %}
+            <a class="user_card hover_card" href="{% url 'missing_gadgets' %}">
+              <div>
+                <p class="dash_gadget">{{gadget.model|title}} ({{gadget.color|title}})</p>
+                <p class="dash_reported">{{gadget.missing_date}}</p>
+              </div>
+              <p class="dash_owner">Owner: {{gadget.owner.full_name|title}}</p>
+                 <!-- -  - {{gadget.device_id}} -   - date reported:  -->
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <h2 class="dash_missing" onclick="hello()">Report a Missing Gadget</h2>
+      <div class="dash_report_missing">
+          <form method="GET" id="searchbar">
+            <input name="search" type="search" placeholder="Search for a gadget..." id="search_input" />
+            <div id="search_btn" class="bx bx-search" ></div>
+          </form>
+          {% for gadget in gadgets %}
+          <div class="user_card dash_card">
+            <p>{{gadget.model|title}} ({{gadget.color|title}})</p>
+            <p>Owner: {{gadget.owner.full_name|title}}</p>
           </div>
-        {% endif %}
-      {% endfor %}
-      <br>
-      <h2 style="color:black;">Report a Missing Gadget</h2>
-      <form method="GET" id="searchbar">
-        <input name="search" type="search" placeholder="Search for a gadget..." id="search_input" />
-        <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
-    </form>
-    {% for gadget in gadgets %}
-      <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
-        <p class="appt_time">
-          {{gadget.model|title}} - {{gadget.color|title}} - {{gadget.device_id}} - {{gadget.owner.full_name|title}}
-        </p>
+          {% endfor %}
       </div>
-      {% endfor %}
-      <h2 style="color:black;">Users</h2>
-      <div class="appt_card" style="background: rgb(44, 243, 183); cursor: pointer;">
-        <p lass="appt_time">
-          Total Population: {{ users_count.total_count}}
-        </p>
-        <p class="appt_time">
-          Number of Students: {{ users_count.student_count }}
-          <br>
-          Number of Staff : {{ users_count.staff_count }}
-          <br>
-          Number of Vendors : {{ users_count.vendor_count }}
-        </p>
+      <h2 class="dash_missing">All Stats</h2>
+      <div class="dash_stats">
+        <div>
+            <h5>Total Population</h5>
+            <p>{{ users_count.total_count}}</p>
+        </div>
+        <div>
+            <h5>Number of Students</h5>
+            <p>{{ users_count.student_count }}</p>
+        </div>
+        <div>
+            <h5> Number of Staff </h5>
+            <p>{{ users_count.staff_count}}</p>
+        </div>
+        <div>
+            <h5>Total Population</h5>
+            <p>{{ users_count.vendor_count}}</p>
+        </div>      
       </div>
-      <!-- <a href="{% url 'edit'}"></a> -->
-      <!-- <script
+      <a href="{% url 'edit'}"></a>
+      <script
         src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"
-        ></script> -->
+        ></script>
       </section>
   </body>
   <script>
-    const removeDropDown = () =>{
-     let dropdown = document.querySelector(".dashboard_dropdown");
-     if (!dropdown){return}
-     dropdown.style.animation = "fadedown 0.3s"
-     setTimeout(()=>{
-         dropdown.style.display = "none"
-     }, 250)
- }
-</script>
+    function hello (){
+      console.log("hello console")
+    }
+  </script>
   <style>
     body{
       background-color: #ffffff;
-      background-image:  linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77);
-      background-size: 18px 32px;
-      background-position: 0 0, 0 0, 9px 16px, 9px 16px, 0 0, 9px 16px;
+      background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #ffffff 33px ), repeating-linear-gradient( #c4c8ff55, #c4c8ff );
+      /* position: fixed; */
     }
   </style>
 </html>

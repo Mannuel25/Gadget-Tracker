@@ -21,7 +21,7 @@ a{
 #main-nav {
     padding: 0 30px 0 0;
     height: fit-content;
-    background: rgb(9, 9, 48);
+    background: var(--primary-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -270,11 +270,11 @@ a{
 }
 .matric_header{
     width: 150px;
-    padding-left: 10px;
+    padding-left: 25px;
 }
 .update_header{
     width: 230px;
-    padding-left: 25px;
+    padding-left: 65px;
 }
 .gadget_header{
     width: 350px;
@@ -302,9 +302,11 @@ a{
 }
 .mat_no{
     width: 150px;
+    text-align: center;
 }
 .last_update{
     width: 230px;
+    text-align: center;
 }
 .view_btn{
     background:  rgb(55, 177, 2);;
@@ -321,6 +323,176 @@ a{
     font-size: 1.4em;
     padding: 4px 4px -34px 4px;
     /* margin-bottom: 25px;} */
+}
+.upload_text{
+    height: 91vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+   
+}
+.upload_text > div > h2{
+    font-weight: 600;
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 15px;
+}
+.upload_div_1{
+    animation: fadeup 0.5s;
+}
+.download_template{
+    display: block;
+    padding: 12.5px 25px;
+    margin: 25px auto 15px auto;
+    border: none;
+    background: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.539);
+    transition: 0.2s;
+    cursor: pointer;
+}
+.download_template:hover{
+    scale: 1.06;
+}
+.download_template a{
+    color: white;
+    font-size: 1.3em;
+}
+.download_template a:hover{
+    font-weight: 800px;
+    text-decoration: none;
+}
+.excel_img{
+    margin-top: 30px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.453);
+    border-radius: 5px;
+    animation: fadeup 0.8s;
+    height: 250px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+.upload_steps ul{
+    margin: 0;
+}
+.upload_steps{
+    background: var(--primary-color);
+    color: white !important;
+    width: 98.55vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+.upload_steps li{
+    margin-bottom: 10px;
+}
+.upload_steps>h3{
+    text-align: center;    
+    font-weight: 600;
+    margin: 30px 0 20px 0;
+    font-size: 2.3em;
+}
+.upload_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.upload_form label{
+    display: none;
+}
+.upload_form input{
+    padding: 0 0 0 60px;
+}
+.upload_form button{
+    color:var(--primary-color);
+    background: #fff;
+    font-size: 1.3em;
+    margin-bottom: 50px;
+    font-weight: 600;
+}
+.gadget_title, .gadget_owner, .date_reported{
+    font-size: 1.2em;
+    line-height: 1.1em;
+}
+.date_reported, .gadget_owner{
+    background: rgb(4, 4, 30);
+    padding: 7px 14px;
+}
+.gadget_id{
+    font-size: 0.8em;
+    color: rgb(165, 165, 165);
+}
+.gadget_info, .owner, .date_reported_wrapper{
+    width: 25%;
+}
+.button_wrapper{
+    display: flex;
+    justify-content: flex-end;
+    width: 10%;
+}
+.flex_justify_center{
+    display: flex !important;
+    justify-content: center !important;
+    gap: 18px;
+}
+.dash_stats{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 30px;
+    margin: 30px 0 0 0;
+}
+.dash_stats> div{
+    width: 100%;
+    background: rgb(29, 29, 63);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+
+}
+.dash_stats p{
+    font-size: 3em;
+}
+.dash_stats h5{
+    font-size: 1.2em;
+}
+.owner, .date_reported_wrapper{
+    text-align: center;
+}
+.gadgets_wrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(auto-fill, 70px);
+    grid-auto-flow: column dense;
+    gap: 10px;
+    height: 270px;
+}
+.dash_report_missing, .gadgets_wrapper{
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.559);
+    background: rgb(46, 46, 84);
+}
+.dash_report_missing> form{
+    margin-block: 20px;
+}
+.dash_missing{
+    font-size: 1.5em;
+    color: #fff;
+    background: var(--primary-color);
+    padding: 10px;
+    margin: 30px 0 0 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.559);
+}
+.dash_reported{
+    font-size: 0.8em;
+    color: aquamarine;
 }
 @keyframes slideup {
     0% {

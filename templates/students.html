@@ -24,7 +24,7 @@
         </form>
         <div class="table_container">
             <div class="user_card" style="margin-bottom: 25px;">
-                <p class="user_column">Student</p>
+                <p class="user_column">Student Name</p>
                 <p class="matric_header">Matric Number</p>
                 <p class="update_header">Last updated</p>
                 <p class="gadget_header">Gadgets</p>
@@ -46,15 +46,19 @@
                     <p class="mat_no">{{user.user_id }}</p>
                     <p class="last_update">{{ user.date_updated }}</p>
                     <div class="gadget_column">
-                        {% if user.first_gadget %}
-                        <p>{{ user.first_gadget.model }}</p>
-                        {% else %}
-                        <p>No gadget available</p>
-                        {% endif %}
-                        <p> +{{ user.gadget_count }}</p>
                         {% if user.missing_gadget_exists %}
-                                <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
-                            {% endif %}
+                            <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
+                        {% endif %}
+                        {% if user.first_gadget %}
+                            <p>{{ user.first_gadget.model }}</p>
+                        {% if user.gadget_count > 1 %}
+                            <p> +{{ user.gadget_count }}</p>
+                        {% else %}
+                            <p style="color: transparent;"> +{{ user.gadget_count }}</p>
+                        {% endif %}
+                        {% else %}
+                            <p>No gadget available</p>
+                        {% endif %}
                     </div>
                 </div>
                 </a>
@@ -72,7 +76,7 @@
       </style>
 </body>
 <script>
-       const removeDropDown = () =>{
+       let removeDropDown = () =>{
         let dropdown = document.querySelector(".dashboard_dropdown");
         if (!dropdown){return}
         dropdown.style.animation = "fadedown 0.3s"

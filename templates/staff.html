@@ -24,7 +24,7 @@
         </form>
         <div class="table_container">
             <div class="user_card" style="margin-bottom: 25px;">
-                <p class="user_column">Staff</p>
+                <p class="user_column">Staff Name</p>
                 <p class="matric_header">Staff ID</p>
                 <p class="update_header">Last updated</p>
                 <p class="gadget_header">Gadgets</p>
@@ -72,7 +72,7 @@
       </style>
 </body>
 <script>
-       const removeDropDown = () =>{
+       let removeDropDown = () =>{
         let dropdown = document.querySelector(".dashboard_dropdown");
         if (!dropdown){return}
         dropdown.style.animation = "fadedown 0.3s"
