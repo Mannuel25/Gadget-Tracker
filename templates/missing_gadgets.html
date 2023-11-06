@@ -22,52 +22,63 @@
                 <div id="search_btn" class="bx bx-search" onclick="(()=> document.querySelector('#searchbar').submit())"></div>
             </form>
             <div class="table_container">
+                <div class="user_card" style="margin-bottom: 25px;">
+                    <p class="gadget_info">Gadget</p>
+                    <p class="owner">Owner</p>
+                    <p class="date_reported_wrapper">Date Reported</p>
+                    <p class="button_wrapper"></p>
+                </div>
                 {% for gadget in gadgets %}
                     <div class="user_card hover_card">
                         <div class="gadget_info">
-                            <p>{{gadget.model|title}}</p>
-                            <p>{{gadget.device_id}} color: {{gadget.color|title}}</p>
+                            <p class="gadget_title">{{gadget.model|title}}</p>
+                            <p class="gadget_id">{{gadget.device_id}} | colour: {{gadget.color|title}}</p>
                         </div>
                         <div class="owner">
-                            <p>Owner: {{gadget.owner.full_name|title}}</p>
-                            <p>Date reported: {{gadget.missing_date}}</p>
+                            <p class="gadget_owner">{{gadget.owner.full_name|title}}</p>
                         </div>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> Mark as found </button>
+                        <div class="date_reported_wrapper">
+                            <p class="date_reported">{{gadget.missing_date}}</p>
+                        </div>
+                        <div class="button_wrapper">
+                            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="background: orangered; color: #e8e9ff;"> Mark as found </button>
+                        </div>
                             <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure
-                                                you want to mark this gadget as found?</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
-                                                class="btn btn-primary">Yes</a>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                     </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Are you sure
+                                    you want to mark this user's gadget as found?</h5>
+                                    <!-- this didnt work as expected -->
+                                <!-- <h5 class="modal-title" id="exampleModalLabel">Are you sure
+                                    you want to mark {{gadget.owner.full_name|title}}'s {{gadget.model|title}} as found?</h5> -->
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer flex_justify_center">
+                                <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
+                                    class="btn btn-primary">Yes</a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
     </section>
     <style>
         body{
-          background-color: #ffffff;
-          background-image:  linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(30deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(150deg, #e8e9ff 12%, transparent 12.5%, transparent 87%, #e8e9ff 87.5%, #e8e9ff), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77), linear-gradient(60deg, #e8e9ff77 25%, transparent 25.5%, transparent 75%, #e8e9ff77 75%, #e8e9ff77);
-          background-size: 18px 32px;
-          background-position: 0 0, 0 0, 9px 16px, 9px 16px, 0 0, 9px 16px;
+            background-color: #ffffff;
+            background: linear-gradient(135deg, #f3f3ff55 25%, transparent 25%) -23px 0/ 46px 46px, linear-gradient(225deg, #f3f3ff 25%, transparent 25%) -23px 0/ 46px 46px, linear-gradient(315deg, #f3f3ff55 25%, transparent 25%) 0px 0/ 46px 46px, linear-gradient(45deg, #f3f3ff 25%, #ffffff 25%) 0px 0/ 46px 46px;
         }
       </style>
 </body>
 <script>
-    const removeDropDown = () =>{
+    let removeDropDown = () =>{
      let dropdown = document.querySelector(".dashboard_dropdown");
      if (!dropdown){return}
      dropdown.style.animation = "fadedown 0.3s"
