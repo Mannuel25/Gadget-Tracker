@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u&$q22xu!dqgs80!2$jm^q*j#smbrv68#4@ea=20c^_x7cim*y'
+SECRET_KEY =  config("DEBUG")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -80,7 +81,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': config('ENGINE'),
+        # 'NAME': config('NAME'),
+        'NAME': 'db.sqlite3',
+        # 'HOST': config('HOST'),
+        # 'USER': config('USER'),
+        # 'PORT': config('PORT'),
+        # 'PASSWORD': config('PASSWORD'),
     }
 }
 
