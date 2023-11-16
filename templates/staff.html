@@ -51,7 +51,7 @@
                             {% else %}
                                 <p>No gadget available</p>
                             {% endif %}
-                            {% if user.gadget_count > 1 %}
+                            {% if user.gadget_count %}
                             <p> +{{ user.gadget_count }}</p>
                             {% else %}
                                 <p style="color: transparent;"> +{{ user.gadget_count }}</p>
