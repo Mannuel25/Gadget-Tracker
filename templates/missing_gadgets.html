@@ -31,7 +31,7 @@
                 {% for gadget in gadgets %}
                     <div class="user_card hover_card">
                         <div class="gadget_info">
-                            <p class="gadget_title">{{gadget.model|title}}</p>
+                            <p class="gadget_title">{{gadget.model|title}} {{ gadget.pk }}</p>
                             <p class="gadget_id">{{gadget.device_id}} | colour: {{gadget.color|title}}</p>
                         </div>
                         <div class="owner">
@@ -41,32 +41,26 @@
                             <p class="date_reported">{{gadget.missing_date}}</p>
                         </div>
                         <div class="button_wrapper">
-                            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="background: orangered; color: #e8e9ff;"> Mark as found </button>
-                        </div>
-                            <!-- Modal -->
+                            <button type="button" class="btn" data-toggle="modal" data-target="#markFoundModal{{ gadget.pk }}" style="background: orangered; color: #e8e9ff;"> Mark as found </button>
+                        </div>                
                     </div>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Are you sure
-                                    you want to mark this user's gadget as found?</h5>
-                                    <!-- this didnt work as expected -->
-                                <!-- <h5 class="modal-title" id="exampleModalLabel">Are you sure
-                                    you want to mark {{gadget.owner.full_name|title}}'s {{gadget.model|title}} as found?</h5> -->
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-footer flex_justify_center">
-                                <a href="{% url 'mark_gadget_as_found' gadget.id %}" type="button"
-                                    class="btn btn-primary">Yes</a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="markFoundModal{{ gadget.pk }}" tabindex="-1" role="dialog" aria-labelledby="markFoundModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="markFoundModalLabel">Are you sure you want to mark this gadget as found?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer flex_justify_center">
+                                    <a href="{% url 'mark_gadget_as_found' gadget.pk %}" type="button" class="btn btn-primary">Yes</a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
     </section>

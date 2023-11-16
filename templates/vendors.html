@@ -50,7 +50,11 @@
                     {% else %}
                     <p>No gadget available</p>
                     {% endif %}
-                    <p> +{{ user.gadget_count }}</p>
+                    {% if user.gadget_count > 1 %}
+                        <p> +{{ user.gadget_count }}</p>
+                    {% else %}
+                        <p style="color: transparent;"> +{{ user.gadget_count }}</p>
+                    {% endif %}
                     {% if user.missing_gadget_exists %}
                         <div class="missing_badge bx bxs-error-circle hover_card" title="Missing gadget reported!"></div>
                     {% endif %}

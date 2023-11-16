@@ -51,7 +51,7 @@
                         {% endif %}
                         {% if user.first_gadget %}
                             <p>{{ user.first_gadget.model }}</p>
-                        {% if user.gadget_count > 1 %}
+                        {% if user.gadget_count %}
                             <p> +{{ user.gadget_count }}</p>
                         {% else %}
                             <p style="color: transparent;"> +{{ user.gadget_count }}</p>
