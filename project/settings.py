@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-6ur3x-ooq#xp=k3=5@8u^))fplmutxyij05g4*0py!6!w=4n0z
 # DEBUG = config("DEBUG")
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://gadget-tracker.onrender.com/', 'http://127.0.0.1:8000/']
 
 
 # Application definition
