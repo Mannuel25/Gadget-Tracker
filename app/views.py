@@ -13,6 +13,9 @@ import requests, datetime, os, openpyxl, time
 from django.http import FileResponse, HttpResponse
 from wsgiref.util import FileWrapper
 from django.db import models
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+
 
 def format_current_date_time():
     # Get the current date and time
@@ -38,7 +41,7 @@ def dashboard(request):
     missing_gadgets = Gadget.objects.filter(missing=True)
     student_count = CustomUser.objects.filter(user_type='student').count()
     staff_count = CustomUser.objects.filter(user_type='staff').count()
-    vendor_count = CustomUser.objects.filter(user_type='student').count()
+    vendor_count = CustomUser.objects.filter(user_type='vendor').count()
     total_count = student_count + staff_count + vendor_count
     users_count = {
         'total_count' : total_count, 'student_count' : student_count, 
@@ -61,22 +64,36 @@ def signup_user(request):
             return redirect('login')
     return render(request, 'registration/signup.html', context={'form': form})
 
-
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            login(request, user)
-            return redirect('dashboard')
+            # Check if the user has an active session
+            if user.active_session and user.active_session != request.session.session_key:
+                messages.warning(request, f"Login failed, a user is already logged in with this credentials.")
+            else:
+                # Update the active session
+                user.active_session = request.session.session_key
+                user.save()
+
+                # Log in the current user
+                login(request, user)
+                return redirect('dashboard')
         else:
             messages.error(request, "Invalid email address or password")
+
     return render(request, 'login.html')
 
 
 @login_required(login_url='login')
 def logout_user(request):
+    # Clear the active session
+    if request.user.active_session == request.session.session_key:
+        request.user.active_session = None
+        request.user.save()
     logout(request)
     return redirect('home')
 
@@ -252,7 +269,7 @@ def missing_gadgets(request):
     if search_input == None:
         gadgets = Gadget.objects.filter(missing=True)
     else:
-        gadgets = Gadget.objects.filter(owner__full_name__icontains=search_input, missing=True)
+        gadgets = Gadget.objects.filter(model__icontains=search_input, missing=True)
     return render(request, 'missing_gadgets.html', {'gadgets' : gadgets})
 
 
@@ -299,7 +316,6 @@ def read_upload_users(filename):
                     data = [rec.value for rec in c]
                     # check if that user with a gadget exists...if it does udpate the gadgets he/she has
                     user = CustomUser.objects.filter(user_id=data[1])
-                    print(user)
                     if user.exists():
                         gadget_ = Gadget.objects.filter(owner=user.first(), model=data[8])
                         if not gadget_.exists():
@@ -335,6 +351,7 @@ def read_upload_users(filename):
                     pass
             row_count += 1
         wb_obj.close()
+        print(CustomUser.objects.all().count())
         return True, "Users uploaded successfully"
     except Exception as e:
         return False, "Users upload failed " + str(e)

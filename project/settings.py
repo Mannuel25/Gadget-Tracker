@@ -26,14 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6ur3x-ooq#xp=k3=5@8u^))fplmutxyij05g4*0py!6!w=4n0z'
 
 
-
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config("DEBUG")
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://gadget-tracker.onrender.com/', 'http://127.0.0.1:8000/', 'gadget-tracker.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'gadget-tracker.onrender.com']
 
 
 # Application definition
@@ -86,14 +83,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # 'ENGINE': config('ENGINE'),
-        # 'NAME': config('NAME'),
-        'NAME': 'db.sqlite3',
-        # 'HOST': config('HOST'),
-        # 'USER': config('USER'),
-        # 'PORT': config('PORT'),
-        # 'PASSWORD': config('PASSWORD'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': config('ENGINE'),
+        'NAME': config('NAME'),
+        # 'NAME': 'db.sqlite3',
+        'HOST': config('HOST'),
+        'USER': config('USER'),
+        'PORT': 5432,
+        'PASSWORD': config('PASSWORD'),
     }
 }
 

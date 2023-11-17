@@ -75,6 +75,7 @@ class CustomUser(AbstractUser):
     level = models.CharField(choices=LEVEL_CHOICES, max_length=50, blank=True, null=True)
     department = models.CharField(choices=DEPARTMENT_CHOICES, max_length=50, blank=True, null=True)
     picture = models.FileField(upload_to="user_pictures", blank=True, null=True)
+    active_session = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -85,6 +86,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.full_name} - {self.email}"
+
 
 class Gadget(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
