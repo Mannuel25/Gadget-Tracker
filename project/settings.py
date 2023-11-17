@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
+import os, dj_database_url
 from pathlib import Path
 from decouple import config
 
@@ -81,19 +81,22 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': config('ENGINE'),
-        'NAME': config('NAME'),
-        # 'NAME': 'db.sqlite3',
-        'HOST': config('HOST'),
-        'USER': config('USER'),
-        'PORT': 5432,
-        'PASSWORD': config('PASSWORD'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'gadget_tracker', 
+#         # 'NAME': 'db.sqlite3',
+#         'HOST': 'dpg-clb224u16hkc7381nolg-a',
+#         'USER': 'gadget_tracker_user',
+#         'PORT': 5432,
+#         'PASSWORD': 'y1vreDNwI8vhlksSitE4ktD9OIqIlxi6'
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.parse(config('DATABASE_URL'))
+}
 
 AUTH_USER_MODEL = 'app.CustomUser'
 
