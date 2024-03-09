@@ -280,6 +280,13 @@ def mark_gadget_as_found(request, id):
     gadget.save()
     return redirect('missing_gadgets')
 
+@login_required(login_url='login')
+def report_missing_gadget(request, id):
+    gadget = Gadget.objects.get(id=id)
+    gadget.missing, gadget.missing_date = format_current_date_time(), None
+    gadget.save()
+    return redirect('dashboard')
+
 
 def read_upload_users(filename):
     """

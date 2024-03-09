@@ -20,4 +20,5 @@ urlpatterns = [
     path('download_template/', download_template, name='download_template'),
     path('missing_gadgets/', missing_gadgets, name='missing_gadgets'),
     path('gadget_found/<int:id>', mark_gadget_as_found, name='mark_gadget_as_found'),
+    path('report_gadget/<int:id>', report_missing_gadget, name='report_gadget'),
 ]
