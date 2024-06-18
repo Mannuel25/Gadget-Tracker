@@ -30,6 +30,7 @@ def format_current_date_time():
 
     return formatted_date + " " + formatted_time
 
+
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
@@ -64,6 +65,7 @@ def signup_user(request):
             return redirect('login')
     return render(request, 'registration/signup.html', context={'form': form})
 
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -71,17 +73,9 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Check if the user has an active session
-            if user.active_session and user.active_session != request.session.session_key:
-                messages.warning(request, f"Login failed, a user is already logged in with this credentials.")
-            else:
-                # Update the active session
-                user.active_session = request.session.session_key
-                user.save()
-
-                # Log in the current user
-                login(request, user)
-                return redirect('dashboard')
+            # Log in the current user
+            login(request, user)
+            return redirect('dashboard')
         else:
             messages.error(request, "Invalid email address or password")
 
@@ -90,10 +84,6 @@ def login_user(request):
 
 @login_required(login_url='login')
 def logout_user(request):
-    # Clear the active session
-    if request.user.active_session == request.session.session_key:
-        request.user.active_session = None
-        request.user.save()
     logout(request)
     return redirect('home')
 
@@ -132,6 +122,7 @@ class UserAndGadgets():
             variant.owner = self.object
             variant.save()
 
+
 class UserGadgetsCreate(UserAndGadgets, CreateView):
 
     def get_context_data(self, **kwargs):
@@ -148,6 +139,7 @@ class UserGadgetsCreate(UserAndGadgets, CreateView):
             return {
                 'gadgets': GadgetFormSet(self.request.POST or None, self.request.FILES or None, prefix='gadgets'),
             }
+
 
 class UserGadgetsUpdate(UserAndGadgets, UpdateView):
 
@@ -194,6 +186,7 @@ def all_students(request):
 
     return render(request, 'students.html', {'students' : students, 'gadgets' :gadgets})
 
+
 @login_required(login_url='login')
 def all_staff(request):
     search_input = request.GET.get('search')
@@ -213,6 +206,7 @@ def all_staff(request):
                 user.missing_gadget_exists = True
 
     return render(request, 'staff.html', {'staff' : staff, 'gadgets' :gadgets})
+
 
 @login_required(login_url='login')
 def all_vendors(request):
@@ -279,6 +273,7 @@ def mark_gadget_as_found(request, id):
     gadget.missing, gadget.missing_date = False, None
     gadget.save()
     return redirect('missing_gadgets')
+
 
 @login_required(login_url='login')
 def report_missing_gadget(request, id):
@@ -362,6 +357,7 @@ def read_upload_users(filename):
         return True, "Users uploaded successfully"
     except Exception as e:
         return False, "Users upload failed " + str(e)
+
 
 @login_required(login_url='login')
 def upload(request):

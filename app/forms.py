@@ -31,6 +31,7 @@ class UserForm(forms.ModelForm):
                     }
                 ),
         }
+
 class GadgetForm(forms.ModelForm):
     class Meta:
         model = Gadget
@@ -44,6 +45,7 @@ class CustomGadgetFormSet(BaseInlineFormSet):
             form.fields['DELETE'].widget = HiddenInput()
 
 GadgetFormSet = inlineformset_factory(CustomUser, Gadget, form=GadgetForm, extra=1, can_delete=True, can_delete_extra=True, formset=CustomGadgetFormSet)
+
 
 class UploadedTemplatesForm(forms.ModelForm):
     class Meta:
