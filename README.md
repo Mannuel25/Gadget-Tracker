@@ -1,5 +1,5 @@
 <div align="center">
-<img src="screenshots/homepage.png" alt="TU Counsel" style="display: block; margin: 0 auto width="150" height="150"/>
+<img src="screenshots/homepage.png" alt="TU Counsel" style="display: block; margin: 0 auto width="350" height="300"/>
 </div>
 
 <div align="center">
